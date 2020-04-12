@@ -4,35 +4,37 @@
 
 enum class EffekseerCoreDeviceType
 {
-    Unknown,
-    OpenGL,
-}; 
+	Unknown,
+	OpenGL,
+};
 
 #if !defined(SWIG)
 
 class EffekseerSettingCore : public ::Effekseer::Setting
 {
 private:
-    static EffekseerSettingCore* effekseerSetting_;
+	static EffekseerSettingCore* effekseerSetting_;
+
 public:
-    EffekseerSettingCore();
-    ~EffekseerSettingCore();
-    static EffekseerSettingCore* create();
+	EffekseerSettingCore();
+	~EffekseerSettingCore();
+	static EffekseerSettingCore* create();
 };
 
 #endif
 
 class EffekseerBackendCore
 {
-    static EffekseerCoreDeviceType deviceType_;
-    static EffekseerSettingCore* setting_;
+	static EffekseerCoreDeviceType deviceType_;
+	static EffekseerSettingCore* setting_;
+
 public:
-    EffekseerBackendCore() = default;
-    ~EffekseerBackendCore() = default;
+	EffekseerBackendCore() = default;
+	~EffekseerBackendCore() = default;
 
-    static EffekseerCoreDeviceType GetDevice();
+	static EffekseerCoreDeviceType GetDevice();
 
-    static bool InitializeAsOpenGL();
+	static bool InitializeAsOpenGL();
 
-    static void Terminate();
+	static void Terminate();
 };

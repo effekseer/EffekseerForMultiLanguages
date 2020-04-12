@@ -1,0 +1,8 @@
+## How to develop
+
+### Requirements
+
+- C++ compiler
+- cmake
+- swig
+- JDK (If you develop it for JVM)

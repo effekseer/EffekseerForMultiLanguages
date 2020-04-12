@@ -11,16 +11,19 @@ add_library(EffekseerNativeForJava
 )
 
 find_package(JNI)
-target_include_directories(
-  EffekseerNativeForJava
-  PRIVATE
-  ${JNI_INCLUDE_DIRS}
-)
 
-target_link_libraries(EffekseerNativeForJava
-  PRIVATE
-  Effekseer
-  EffekseerRendererGL
-  EffekseerCore
-)
+if(${JNI_FOUND})
+  target_include_directories(
+    EffekseerNativeForJava
+    PRIVATE
+    ${JNI_INCLUDE_DIRS}
+  )
+
+  target_link_libraries(EffekseerNativeForJava
+    PRIVATE
+    Effekseer
+    EffekseerRendererGL
+    EffekseerCore
+  )
+endif()
 

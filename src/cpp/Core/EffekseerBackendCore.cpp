@@ -1,18 +1,13 @@
 #include "EffekseerBackendCore.h"
 #include <EffekseerRendererGL.h>
 
-EffekseerSettingCore *EffekseerSettingCore::effekseerSetting_ = nullptr;
+EffekseerSettingCore* EffekseerSettingCore::effekseerSetting_ = nullptr;
 
-EffekseerSettingCore::EffekseerSettingCore()
-{
-}
+EffekseerSettingCore::EffekseerSettingCore() {}
 
-EffekseerSettingCore::~EffekseerSettingCore()
-{
-	effekseerSetting_ = nullptr;
-}
+EffekseerSettingCore::~EffekseerSettingCore() { effekseerSetting_ = nullptr; }
 
-EffekseerSettingCore *EffekseerSettingCore::create()
+EffekseerSettingCore* EffekseerSettingCore::create()
 {
 	if (effekseerSetting_ == nullptr)
 	{
@@ -29,17 +24,8 @@ EffekseerSettingCore *EffekseerSettingCore::create()
 EffekseerCoreDeviceType EffekseerBackendCore::deviceType_ = EffekseerCoreDeviceType::Unknown;
 EffekseerSettingCore* EffekseerBackendCore::setting_ = nullptr;
 
-EffekseerCoreDeviceType EffekseerBackendCore::GetDevice()
-{
-	return deviceType_;
-}
+EffekseerCoreDeviceType EffekseerBackendCore::GetDevice() { return deviceType_; }
 
-bool EffekseerBackendCore::InitializeAsOpenGL()
-{
-	return false;
-}
+bool EffekseerBackendCore::InitializeAsOpenGL() { return false; }
 
-void EffekseerBackendCore::Terminate()
-{
-
-}
+void EffekseerBackendCore::Terminate() {}
