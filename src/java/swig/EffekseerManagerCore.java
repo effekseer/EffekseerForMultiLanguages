@@ -52,4 +52,16 @@ public class EffekseerManagerCore {
     return EffekseerCoreJNI.EffekseerManagerCore_Play(swigCPtr, this, EffekseerEffectCore.getCPtr(effect), effect);
   }
 
+  public void DrawBack() {
+    EffekseerCoreJNI.EffekseerManagerCore_DrawBack(swigCPtr, this);
+  }
+
+  public void DrawFront() {
+    EffekseerCoreJNI.EffekseerManagerCore_DrawFront(swigCPtr, this);
+  }
+
+  public void SetViewProjectionMatrixWithSimpleWindow(int windowWidth, int windowHeight) {
+    EffekseerCoreJNI.EffekseerManagerCore_SetViewProjectionMatrixWithSimpleWindow(swigCPtr, this, windowWidth, windowHeight);
+  }
+
 }

@@ -418,6 +418,43 @@ SWIGEXPORT jint JNICALL Java_Effekseer_swig_EffekseerCoreJNI_EffekseerManagerCor
 }
 
 
+SWIGEXPORT void JNICALL Java_Effekseer_swig_EffekseerCoreJNI_EffekseerManagerCore_1DrawBack(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  EffekseerManagerCore *arg1 = (EffekseerManagerCore *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(EffekseerManagerCore **)&jarg1; 
+  (arg1)->DrawBack();
+}
+
+
+SWIGEXPORT void JNICALL Java_Effekseer_swig_EffekseerCoreJNI_EffekseerManagerCore_1DrawFront(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  EffekseerManagerCore *arg1 = (EffekseerManagerCore *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(EffekseerManagerCore **)&jarg1; 
+  (arg1)->DrawFront();
+}
+
+
+SWIGEXPORT void JNICALL Java_Effekseer_swig_EffekseerCoreJNI_EffekseerManagerCore_1SetViewProjectionMatrixWithSimpleWindow(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jint jarg3) {
+  EffekseerManagerCore *arg1 = (EffekseerManagerCore *) 0 ;
+  int32_t arg2 ;
+  int32_t arg3 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(EffekseerManagerCore **)&jarg1; 
+  arg2 = (int32_t)jarg2; 
+  arg3 = (int32_t)jarg3; 
+  (arg1)->SetViewProjectionMatrixWithSimpleWindow(arg2,arg3);
+}
+
+
 #ifdef __cplusplus
 }
 #endif

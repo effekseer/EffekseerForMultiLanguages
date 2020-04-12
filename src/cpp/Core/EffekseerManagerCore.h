@@ -25,4 +25,10 @@ public:
 	void Update(float deltaFrames);
 
 	int Play(EffekseerEffectCore* effect);
+
+	void DrawBack();
+
+	void DrawFront();
+
+	void SetViewProjectionMatrixWithSimpleWindow(int32_t windowWidth, int32_t windowHeight);
 };
