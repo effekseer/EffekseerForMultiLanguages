@@ -6,3 +6,14 @@
 - cmake
 - swig
 - JDK (If you develop it for JVM)
+- ant (If you develop it for JVM)
+
+## How to use
+
+### libGDX
+
+Compile C++ and java
+
+copy Effekseer.jar to ```examples/libGdxSample/core/libs```
+
+copy EffekseerNativeForJava.dll to ```examples/libGdxSample/core/assets```

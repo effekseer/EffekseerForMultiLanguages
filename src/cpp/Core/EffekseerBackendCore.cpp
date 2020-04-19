@@ -26,6 +26,10 @@ EffekseerSettingCore* EffekseerBackendCore::setting_ = nullptr;
 
 EffekseerCoreDeviceType EffekseerBackendCore::GetDevice() { return deviceType_; }
 
-bool EffekseerBackendCore::InitializeAsOpenGL() { return false; }
+bool EffekseerBackendCore::InitializeAsOpenGL()
+{
+	deviceType_ = EffekseerCoreDeviceType::OpenGL;
+	return true;
+}
 
 void EffekseerBackendCore::Terminate() {}

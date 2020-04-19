@@ -1,4 +1,5 @@
 #include "EffekseerManagerCore.h"
+#include "EffekseerBackendCore.h"
 #include "EffekseerEffectCore.h"
 #include <EffekseerRendererGL.h>
 
@@ -33,6 +34,13 @@ bool EffekseerManagerCore::Initialize(int32_t spriteMaxCount)
 		ES_SAFE_RELEASE(renderer_);
 		return false;
 	}
+
+	manager_->SetSpriteRenderer(renderer_->CreateSpriteRenderer());
+	manager_->SetRibbonRenderer(renderer_->CreateRibbonRenderer());
+	manager_->SetRingRenderer(renderer_->CreateRingRenderer());
+	manager_->SetTrackRenderer(renderer_->CreateTrackRenderer());
+	manager_->SetModelRenderer(renderer_->CreateModelRenderer());
+
 	return true;
 }
 
@@ -95,7 +103,7 @@ void EffekseerManagerCore::SetViewProjectionMatrixWithSimpleWindow(int32_t windo
 	renderer_->SetProjectionMatrix(
 		::Effekseer::Matrix44().OrthographicRH(static_cast<float>(windowWidth), static_cast<float>(windowHeight), 1.0f, 400.0f));
 
-	renderer_->SetCameraMatrix(::Effekseer::Matrix44().LookAtRH(::Effekseer::Vector3D(windowWidth / 2.0f, -windowHeight / 2.0f, -200.0f),
-																::Effekseer::Vector3D(windowWidth / 2.0f, -windowHeight / 2.0f, 200.0f),
+	renderer_->SetCameraMatrix(::Effekseer::Matrix44().LookAtRH(::Effekseer::Vector3D(windowWidth / 2.0f, windowHeight / 2.0f, 200.0f),
+																::Effekseer::Vector3D(windowWidth / 2.0f, windowHeight / 2.0f, -200.0f),
 																::Effekseer::Vector3D(0.0f, 1.0f, 0.0f)));
 }

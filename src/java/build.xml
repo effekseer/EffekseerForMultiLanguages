@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project default="build" name="Effekseer">
+
+<target name="build">
+    <mkdir dir="./../build_java/java"/>
+    <javac srcdir=".;" destdir="./../build_java/java" encoding="UTF-8" />
+    <jar jarfile="Effekseer.jar" basedir="./../build_java/java" destfile="./../build_java/Effekseer.jar" />
+</target>
+
+
+</project>
