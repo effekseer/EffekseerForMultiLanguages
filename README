@@ -1,10 +1,9 @@
-## How to develop
+## Common
 
 ### Requirements
 
 - C++ compiler
-- cmake
-- swig
+- cmake (3.15 or later)
 - JDK (If you develop it for JVM)
 - ant (If you develop it for JVM)
 
@@ -12,8 +11,14 @@
 
 ### libGDX
 
-Compile C++ and java
+please see examples
 
-copy Effekseer.jar to ```examples/libGdxSample/core/libs```
+#### Windows
 
-copy EffekseerNativeForJava.dll to ```examples/libGdxSample/core/assets```
+call ``` examples/libGtxSample.bat ```
+
+## How to Develop
+
+### Requeiments
+
+- swig
