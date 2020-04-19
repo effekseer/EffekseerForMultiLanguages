@@ -357,6 +357,73 @@ SWIGEXPORT jboolean JNICALL Java_Effekseer_swig_EffekseerCoreJNI_EffekseerEffect
 }
 
 
+SWIGEXPORT jstring JNICALL Java_Effekseer_swig_EffekseerCoreJNI_EffekseerEffectCore_1GetTexturePath(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jint jarg3) {
+  jstring jresult = 0 ;
+  EffekseerEffectCore *arg1 = (EffekseerEffectCore *) 0 ;
+  int32_t arg2 ;
+  EffekseerTextureType arg3 ;
+  char16_t *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(EffekseerEffectCore **)&jarg1; 
+  arg2 = (int32_t)jarg2; 
+  arg3 = (EffekseerTextureType)jarg3; 
+  result = (char16_t *)((EffekseerEffectCore const *)arg1)->GetTexturePath(arg2,arg3);
+  {
+    if(result) jresult = jenv->NewString((const jchar *) result, char16_len (result)); 
+  }
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_Effekseer_swig_EffekseerCoreJNI_EffekseerEffectCore_1GetTextureCount(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  jint jresult = 0 ;
+  EffekseerEffectCore *arg1 = (EffekseerEffectCore *) 0 ;
+  EffekseerTextureType arg2 ;
+  int32_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(EffekseerEffectCore **)&jarg1; 
+  arg2 = (EffekseerTextureType)jarg2; 
+  result = (int32_t)((EffekseerEffectCore const *)arg1)->GetTextureCount(arg2);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_Effekseer_swig_EffekseerCoreJNI_EffekseerEffectCore_1LoadTexture(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jbyteArray jarg2, jint jarg3, jint jarg4, jint jarg5) {
+  jboolean jresult = 0 ;
+  EffekseerEffectCore *arg1 = (EffekseerEffectCore *) 0 ;
+  char *arg2 = (char *) 0 ;
+  int arg3 ;
+  int32_t arg4 ;
+  EffekseerTextureType arg5 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(EffekseerEffectCore **)&jarg1; 
+  {
+    arg2 = (char *) jenv->GetByteArrayElements(jarg2, 0); 
+  }
+  arg3 = (int)jarg3; 
+  arg4 = (int32_t)jarg4; 
+  arg5 = (EffekseerTextureType)jarg5; 
+  result = (bool)(arg1)->LoadTexture(arg2,arg3,arg4,arg5);
+  jresult = (jboolean)result; 
+  {
+    jenv->ReleaseByteArrayElements(jarg2, (jbyte *) arg2, 0); 
+  }
+  
+  return jresult;
+}
+
+
 SWIGEXPORT jlong JNICALL Java_Effekseer_swig_EffekseerCoreJNI_new_1EffekseerManagerCore(JNIEnv *jenv, jclass jcls) {
   jlong jresult = 0 ;
   EffekseerManagerCore *result = 0 ;

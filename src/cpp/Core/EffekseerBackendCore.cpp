@@ -1,9 +1,24 @@
 #include "EffekseerBackendCore.h"
+#include <Effekseer.h>
 #include <EffekseerRendererGL.h>
+
+class CustomTextureLoader : public Effekseer::TextureLoader
+{
+public:
+	CustomTextureLoader() = default;
+	~CustomTextureLoader() = default;
+
+public:
+	Effekseer::TextureData* Load(const EFK_CHAR* path, Effekseer::TextureType textureType) override
+	{
+		// Invalid
+		return nullptr;
+	}
+};
 
 EffekseerSettingCore* EffekseerSettingCore::effekseerSetting_ = nullptr;
 
-EffekseerSettingCore::EffekseerSettingCore() {}
+EffekseerSettingCore::EffekseerSettingCore() { SetTextureLoader(new CustomTextureLoader()); }
 
 EffekseerSettingCore::~EffekseerSettingCore() { effekseerSetting_ = nullptr; }
 

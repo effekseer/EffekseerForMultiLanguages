@@ -44,4 +44,16 @@ public class EffekseerEffectCore {
     return EffekseerCoreJNI.EffekseerEffectCore_Load(swigCPtr, this, data, len, magnification);
   }
 
+  public String GetTexturePath(int index, EffekseerTextureType type) {
+    return EffekseerCoreJNI.EffekseerEffectCore_GetTexturePath(swigCPtr, this, index, type.swigValue());
+  }
+
+  public int GetTextureCount(EffekseerTextureType type) {
+    return EffekseerCoreJNI.EffekseerEffectCore_GetTextureCount(swigCPtr, this, type.swigValue());
+  }
+
+  public boolean LoadTexture(byte[] data, int len, int index, EffekseerTextureType type) {
+    return EffekseerCoreJNI.EffekseerEffectCore_LoadTexture(swigCPtr, this, data, len, index, type.swigValue());
+  }
+
 }

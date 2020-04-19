@@ -35,6 +35,10 @@ bool EffekseerManagerCore::Initialize(int32_t spriteMaxCount)
 		return false;
 	}
 
+	auto setting = EffekseerSettingCore::create();
+	manager_->SetSetting(setting);
+	ES_SAFE_RELEASE(setting);
+
 	manager_->SetSpriteRenderer(renderer_->CreateSpriteRenderer());
 	manager_->SetRibbonRenderer(renderer_->CreateRibbonRenderer());
 	manager_->SetRingRenderer(renderer_->CreateRingRenderer());

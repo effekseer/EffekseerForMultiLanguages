@@ -1,11 +1,21 @@
 ## Common
 
 ### Requirements
-
+- git
 - C++ compiler
 - cmake (3.15 or later)
 - JDK (If you develop it for JVM)
 - ant (If you develop it for JVM)
+
+### Clone
+
+```
+git clone https://github.com/effekseer/EffekseerForMultiLanguages.git
+cd EffekseerForMultiLanguages
+git submodule update --init
+cd src/cpp/Effekseer
+git submodule update --init
+```
 
 ## How to use
 
@@ -22,3 +32,7 @@ call ``` examples/libGtxSample.bat ```
 ### Requeiments
 
 - swig
+
+### Reference
+
+https://github.com/effekseer/EffekseerForWebGL/blob/master/src/cpp/main.cpp
