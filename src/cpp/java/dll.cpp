@@ -242,6 +242,15 @@ static void SWIGUNUSED SWIG_JavaThrowException(JNIEnv *jenv, SWIG_JavaExceptionC
 #include <stdint.h>		// Use the C99 official header
 
 
+
+int char16_len(const char16_t* s)
+{
+	int cnt = 0;
+	while(*s++) cnt++;
+	return cnt;
+}
+
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -415,6 +424,25 @@ SWIGEXPORT jint JNICALL Java_Effekseer_swig_EffekseerCoreJNI_EffekseerManagerCor
   result = (int)(arg1)->Play(arg2);
   jresult = (jint)result; 
   return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_Effekseer_swig_EffekseerCoreJNI_EffekseerManagerCore_1SetEffectPosition(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jfloat jarg3, jfloat jarg4, jfloat jarg5) {
+  EffekseerManagerCore *arg1 = (EffekseerManagerCore *) 0 ;
+  int arg2 ;
+  float arg3 ;
+  float arg4 ;
+  float arg5 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(EffekseerManagerCore **)&jarg1; 
+  arg2 = (int)jarg2; 
+  arg3 = (float)jarg3; 
+  arg4 = (float)jarg4; 
+  arg5 = (float)jarg5; 
+  (arg1)->SetEffectPosition(arg2,arg3,arg4,arg5);
 }
 
 

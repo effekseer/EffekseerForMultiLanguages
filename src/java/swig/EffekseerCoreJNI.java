@@ -22,6 +22,7 @@ public class EffekseerCoreJNI {
   public final static native boolean EffekseerManagerCore_Initialize(long jarg1, EffekseerManagerCore jarg1_, int jarg2);
   public final static native void EffekseerManagerCore_Update(long jarg1, EffekseerManagerCore jarg1_, float jarg2);
   public final static native int EffekseerManagerCore_Play(long jarg1, EffekseerManagerCore jarg1_, long jarg2, EffekseerEffectCore jarg2_);
+  public final static native void EffekseerManagerCore_SetEffectPosition(long jarg1, EffekseerManagerCore jarg1_, int jarg2, float jarg3, float jarg4, float jarg5);
   public final static native void EffekseerManagerCore_DrawBack(long jarg1, EffekseerManagerCore jarg1_);
   public final static native void EffekseerManagerCore_DrawFront(long jarg1, EffekseerManagerCore jarg1_);
   public final static native void EffekseerManagerCore_SetViewProjectionMatrixWithSimpleWindow(long jarg1, EffekseerManagerCore jarg1_, int jarg2, int jarg3);

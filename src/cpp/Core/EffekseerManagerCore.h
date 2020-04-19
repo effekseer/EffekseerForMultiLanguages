@@ -26,6 +26,8 @@ public:
 
 	int Play(EffekseerEffectCore* effect);
 
+	void SetEffectPosition(int handle, float x, float y, float z);
+
 	void DrawBack();
 
 	void DrawFront();

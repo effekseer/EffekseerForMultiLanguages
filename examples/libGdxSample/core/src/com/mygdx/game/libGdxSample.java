@@ -37,7 +37,8 @@ public class libGdxSample extends ApplicationAdapter {
 		}
 
 		int efkhandle = effekseerManagerCore.Play(effekseerEffectCore);
-		System.out.print(efkhandle);
+		effekseerManagerCore.SetEffectPosition(efkhandle,
+				Gdx.graphics.getWidth() / 2.0f,Gdx.graphics.getHeight() / 2.0f, 0.0f);
 	}
 
 	@Override
@@ -49,8 +50,8 @@ public class libGdxSample extends ApplicationAdapter {
 		//batch.draw(img, 0, 0);
 		//batch.end();
 		
-		effekseerManagerCore.SetViewProjectionMatrixWithSimpleWindow(640,480);
-		effekseerManagerCore.Update(1);
+		effekseerManagerCore.SetViewProjectionMatrixWithSimpleWindow(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+		effekseerManagerCore.Update(Gdx.graphics.getDeltaTime() / (1.0f / 60.0f));
 		effekseerManagerCore.DrawBack();
 		effekseerManagerCore.DrawFront();
 	}

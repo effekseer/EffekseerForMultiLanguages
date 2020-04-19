@@ -11,7 +11,7 @@
 %include "stdint.i"
 
 #if SWIGJAVA
-
+%include "swig/Lib/java/char16.i"
 %include various.i
 %apply char *BYTE { char* data };
 

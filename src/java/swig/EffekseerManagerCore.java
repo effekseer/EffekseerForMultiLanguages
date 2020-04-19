@@ -52,6 +52,10 @@ public class EffekseerManagerCore {
     return EffekseerCoreJNI.EffekseerManagerCore_Play(swigCPtr, this, EffekseerEffectCore.getCPtr(effect), effect);
   }
 
+  public void SetEffectPosition(int handle, float x, float y, float z) {
+    EffekseerCoreJNI.EffekseerManagerCore_SetEffectPosition(swigCPtr, this, handle, x, y, z);
+  }
+
   public void DrawBack() {
     EffekseerCoreJNI.EffekseerManagerCore_DrawBack(swigCPtr, this);
   }

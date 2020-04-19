@@ -69,6 +69,11 @@ int EffekseerManagerCore::Play(EffekseerEffectCore* effect)
 	return manager_->Play(effect->GetInternal(), ::Effekseer::Vector3D());
 }
 
+void EffekseerManagerCore::SetEffectPosition(int handle, float x, float y, float z)
+{
+	manager_->SetLocation(handle, x, y, z);
+}
+
 void EffekseerManagerCore::DrawBack()
 {
 	if (manager_ == nullptr)
