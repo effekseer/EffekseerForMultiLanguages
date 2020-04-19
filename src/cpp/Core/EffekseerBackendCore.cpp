@@ -4,9 +4,12 @@
 
 class CustomTextureLoader : public Effekseer::TextureLoader
 {
+	Effekseer::TextureLoader* internalLoader_ = nullptr;
+
 public:
-	CustomTextureLoader() = default;
-	~CustomTextureLoader() = default;
+	CustomTextureLoader() { internalLoader_ = EffekseerRendererGL::CreateTextureLoader(); }
+
+	~CustomTextureLoader() { ES_SAFE_DELETE(internalLoader_); }
 
 public:
 	Effekseer::TextureData* Load(const EFK_CHAR* path, Effekseer::TextureType textureType) override
@@ -14,6 +17,13 @@ public:
 		// Invalid
 		return nullptr;
 	}
+
+	Effekseer::TextureData* Load(const void* data, int32_t size, Effekseer::TextureType textureType) override
+	{
+		return internalLoader_->Load(data, size, textureType);
+	}
+
+	void Unload(Effekseer::TextureData* data) override { internalLoader_->Unload(data); }
 };
 
 EffekseerSettingCore* EffekseerSettingCore::effekseerSetting_ = nullptr;

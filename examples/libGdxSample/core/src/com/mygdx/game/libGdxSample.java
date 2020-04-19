@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import Effekseer.swig.*;
 
 import java.io.Console;
+import java.io.File;
 
 public class libGdxSample extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -28,13 +29,36 @@ public class libGdxSample extends ApplicationAdapter {
 		effekseerManagerCore = new EffekseerManagerCore();
 		effekseerManagerCore.Initialize(8000);
 
-		com.badlogic.gdx.files.FileHandle handle = Gdx.files.internal("Simple.efkefc");
+		String effectPath = "Laser01.efkefc";
+		com.badlogic.gdx.files.FileHandle handle = Gdx.files.internal(effectPath );
 		effekseerEffectCore = new EffekseerEffectCore();
 		byte[] bytes = handle.readBytes();
 		if(!effekseerEffectCore.Load(bytes, bytes.length, 50.0f))
 		{
 			System.out.print("Failed to load.");
 		}
+
+		// load textures
+		for(int i = 0; i < effekseerEffectCore.GetTextureCount(EffekseerTextureType.Color); i++)
+		{
+			String path = (new File(effectPath)).getParent();
+			if(path != null)
+			{
+				path += "/" + effekseerEffectCore.GetTexturePath(i, EffekseerTextureType.Color);
+			}
+			else
+			{
+				path = effekseerEffectCore.GetTexturePath(i, EffekseerTextureType.Color);
+			}
+
+			handle = Gdx.files.internal(path);
+			bytes = handle.readBytes();
+			effekseerEffectCore.LoadTexture(bytes, bytes.length, i, EffekseerTextureType.Color);
+		}
+
+		// TODO
+		// EffekseerTextureType.Normal
+		// EffekseerTextureType.Distortion
 
 		int efkhandle = effekseerManagerCore.Play(effekseerEffectCore);
 		effekseerManagerCore.SetEffectPosition(efkhandle,
