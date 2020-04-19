@@ -29,6 +29,10 @@ call ``` examples/libGtxSample.bat ```
 
 ## How to Develop
 
+### TODO
+
+https://github.com/effekseer/EffekseerForMultiLanguages/issues
+
 ### Requeiments
 
 - swig
