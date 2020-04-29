@@ -13,8 +13,6 @@
 git clone https://github.com/effekseer/EffekseerForMultiLanguages.git
 cd EffekseerForMultiLanguages
 git submodule update --init
-cd src/cpp/Effekseer
-git submodule update --init
 ```
 
 ## How to use
