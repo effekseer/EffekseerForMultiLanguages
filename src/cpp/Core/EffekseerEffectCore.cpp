@@ -72,4 +72,28 @@ bool EffekseerEffectCore::LoadTexture(char* data, int len, int32_t index, Effeks
 	return true;
 }
 
+const char16_t* EffekseerEffectCore::GetModelPath(int32_t index) const { return effect_->GetModelPath(index); }
+
+int32_t EffekseerEffectCore::GetModelCount() const { return effect_->GetModelCount(); }
+
+bool EffekseerEffectCore::LoadModel(char* data, int len, int32_t index)
+{
+	auto loader = effect_->GetSetting()->GetModelLoader();
+	if (loader == nullptr)
+	{
+		return false;
+	}
+
+	auto model = loader->Load((const void*)data, len);
+
+	if (model == nullptr)
+	{
+		return false;
+	}
+
+	effect_->SetModel(index, model);
+
+	return true;
+}
+
 Effekseer::Effect* EffekseerEffectCore::GetInternal() const { return effect_; }

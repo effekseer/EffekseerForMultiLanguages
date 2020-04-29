@@ -20,6 +20,9 @@ public class EffekseerCoreJNI {
   public final static native String EffekseerEffectCore_GetTexturePath(long jarg1, EffekseerEffectCore jarg1_, int jarg2, int jarg3);
   public final static native int EffekseerEffectCore_GetTextureCount(long jarg1, EffekseerEffectCore jarg1_, int jarg2);
   public final static native boolean EffekseerEffectCore_LoadTexture(long jarg1, EffekseerEffectCore jarg1_, byte[] jarg2, int jarg3, int jarg4, int jarg5);
+  public final static native String EffekseerEffectCore_GetModelPath(long jarg1, EffekseerEffectCore jarg1_, int jarg2);
+  public final static native int EffekseerEffectCore_GetModelCount(long jarg1, EffekseerEffectCore jarg1_);
+  public final static native boolean EffekseerEffectCore_LoadModel(long jarg1, EffekseerEffectCore jarg1_, byte[] jarg2, int jarg3, int jarg4);
   public final static native long new_EffekseerManagerCore();
   public final static native void delete_EffekseerManagerCore(long jarg1);
   public final static native boolean EffekseerManagerCore_Initialize(long jarg1, EffekseerManagerCore jarg1_, int jarg2);

@@ -26,9 +26,34 @@ public:
 	void Unload(Effekseer::TextureData* data) override { internalLoader_->Unload(data); }
 };
 
+class CustomModelLoader : public Effekseer::ModelLoader
+{
+	Effekseer::ModelLoader* internalLoader_ = nullptr;
+
+public:
+	CustomModelLoader() { internalLoader_ = EffekseerRendererGL::CreateModelLoader(); }
+
+	~CustomModelLoader() { ES_SAFE_DELETE(internalLoader_); }
+
+public:
+	void* Load(const EFK_CHAR* path) override
+	{
+		// Invalid
+		return nullptr;
+	}
+
+	void* Load(const void* data, int32_t size) override { return internalLoader_->Load(data, size); }
+
+	void Unload(void* data) override { internalLoader_->Unload(data); }
+};
+
 EffekseerSettingCore* EffekseerSettingCore::effekseerSetting_ = nullptr;
 
-EffekseerSettingCore::EffekseerSettingCore() { SetTextureLoader(new CustomTextureLoader()); }
+EffekseerSettingCore::EffekseerSettingCore()
+{
+	SetTextureLoader(new CustomTextureLoader());
+	SetModelLoader(new CustomModelLoader());
+}
 
 EffekseerSettingCore::~EffekseerSettingCore() { effekseerSetting_ = nullptr; }
 

@@ -26,6 +26,12 @@ public:
 
 	bool LoadTexture(char* data, int len, int32_t index, EffekseerTextureType type);
 
+	const char16_t* GetModelPath(int32_t index) const;
+
+	int32_t GetModelCount() const;
+
+	bool LoadModel(char* data, int len, int32_t index);
+
 	/**
 	 * TODO : imeplement a funtions to load resources
 	 * Plan

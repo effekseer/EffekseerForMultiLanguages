@@ -6,8 +6,11 @@ project(EffekseerCore CXX)
 add_library(
   EffekseerCore
   STATIC
+  EffekseerBackendCore.h
   EffekseerBackendCore.cpp
+  EffekseerEffectCore.h
   EffekseerEffectCore.cpp
+  EffekseerManagerCore.h
   EffekseerManagerCore.cpp)
 
 target_include_directories(

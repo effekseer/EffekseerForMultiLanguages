@@ -30,35 +30,12 @@ public class libGdxSample extends ApplicationAdapter {
 		effekseerManagerCore.Initialize(8000);
 
 		String effectPath = "Laser01.efkefc";
-		com.badlogic.gdx.files.FileHandle handle = Gdx.files.internal(effectPath );
-		effekseerEffectCore = new EffekseerEffectCore();
-		byte[] bytes = handle.readBytes();
-		if(!effekseerEffectCore.Load(bytes, bytes.length, 50.0f))
+		effekseerEffectCore = loadEffect(effectPath, 50.0f);
+		if(effekseerEffectCore == null)
 		{
 			System.out.print("Failed to load.");
+			return;
 		}
-
-		// load textures
-		for(int i = 0; i < effekseerEffectCore.GetTextureCount(EffekseerTextureType.Color); i++)
-		{
-			String path = (new File(effectPath)).getParent();
-			if(path != null)
-			{
-				path += "/" + effekseerEffectCore.GetTexturePath(i, EffekseerTextureType.Color);
-			}
-			else
-			{
-				path = effekseerEffectCore.GetTexturePath(i, EffekseerTextureType.Color);
-			}
-
-			handle = Gdx.files.internal(path);
-			bytes = handle.readBytes();
-			effekseerEffectCore.LoadTexture(bytes, bytes.length, i, EffekseerTextureType.Color);
-		}
-
-		// TODO
-		// EffekseerTextureType.Normal
-		// EffekseerTextureType.Distortion
 
 		int efkhandle = effekseerManagerCore.Play(effekseerEffectCore);
 		effekseerManagerCore.SetEffectPosition(efkhandle,
@@ -88,4 +65,59 @@ public class libGdxSample extends ApplicationAdapter {
 		effekseerEffectCore.delete();
 		EffekseerBackendCore.Terminate();
 	}
+
+    EffekseerEffectCore loadEffect(String effectPath, float magnification) {
+        com.badlogic.gdx.files.FileHandle handle = Gdx.files.internal(effectPath);
+        EffekseerEffectCore effectCore = new EffekseerEffectCore();
+
+        // load an effect
+        {
+            byte[] bytes = handle.readBytes();
+            if (!effectCore.Load(bytes, bytes.length, magnification)) {
+                System.out.print("Failed to load.");
+                return null;
+            }
+        }
+
+        // load textures
+        EffekseerTextureType[] textureTypes = new EffekseerTextureType[] {
+                EffekseerTextureType.Color,
+                EffekseerTextureType.Normal,
+                EffekseerTextureType.Distortion,
+        };
+
+	    for(int t = 0; t < 3; t++)
+        {
+            for (int i = 0; i < effectCore.GetTextureCount(textureTypes[t]); i++) {
+                String path = (new File(effectPath)).getParent();
+                if (path != null) {
+                    path += "/" + effectCore.GetTexturePath(i, textureTypes[t]);
+                } else {
+                    path = effectCore.GetTexturePath(i, textureTypes[t]);
+                }
+
+                handle = Gdx.files.internal(path);
+                byte[] bytes = handle.readBytes();
+                effectCore.LoadTexture(bytes, bytes.length, i, textureTypes[t]);
+            }
+        }
+
+        for (int i = 0; i < effectCore.GetModelCount(); i++) {
+            String path = (new File(effectPath)).getParent();
+            if (path != null) {
+                path += "/" + effectCore.GetModelPath(i);
+            } else {
+                path = effectCore.GetModelPath(i);
+            }
+
+            handle = Gdx.files.internal(path);
+            byte[] bytes = handle.readBytes();
+            effectCore.LoadModel(bytes, bytes.length, i);
+        }
+
+	    // TODO material
+        // TODO sound
+
+        return effectCore;
+    }
 }
