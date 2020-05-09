@@ -19,3 +19,5 @@ target_include_directories(
   ../Effekseer/Dev/Cpp/Effekseer/
   ../Effekseer/Dev/Cpp/EffekseerRendererGL/
 )
+
+add_dependencies(EffekseerCore Effekseer EffekseerRendererGL)

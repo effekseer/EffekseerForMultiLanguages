@@ -47,15 +47,51 @@ public:
 	void Unload(void* data) override { internalLoader_->Unload(data); }
 };
 
+class CustomMaterialLoader : public Effekseer::MaterialLoader
+{
+	Effekseer::MaterialLoader* internalLoader_ = nullptr;
+
+public:
+	CustomMaterialLoader(EffekseerRenderer::GraphicsDevice* graphicsDevice)
+	{
+		internalLoader_ = EffekseerRendererGL::CreateMaterialLoader(graphicsDevice);
+	}
+
+	~CustomMaterialLoader() { ES_SAFE_DELETE(internalLoader_); }
+
+public:
+	Effekseer::MaterialData* Load(const EFK_CHAR* path) override
+	{
+		// Invalid
+		return nullptr;
+	}
+
+	Effekseer::MaterialData* Load(const void* data, int32_t size, Effekseer::MaterialFileType fileType) override
+	{
+		return internalLoader_->Load(data, size, fileType);
+	}
+
+	void Unload(Effekseer::MaterialData* data) override { internalLoader_->Unload(data); }
+};
+
 EffekseerSettingCore* EffekseerSettingCore::effekseerSetting_ = nullptr;
 
 EffekseerSettingCore::EffekseerSettingCore()
 {
+	graphicsDevice_ = EffekseerRendererGL::CreateDevice(EffekseerRendererGL::OpenGLDeviceType::OpenGL3);
+
 	SetTextureLoader(new CustomTextureLoader());
 	SetModelLoader(new CustomModelLoader());
+	SetMaterialLoader(new CustomMaterialLoader(graphicsDevice_));
 }
 
-EffekseerSettingCore::~EffekseerSettingCore() { effekseerSetting_ = nullptr; }
+EffekseerSettingCore::~EffekseerSettingCore()
+{
+	ES_SAFE_RELEASE(graphicsDevice_);
+	effekseerSetting_ = nullptr;
+}
+
+EffekseerRenderer::GraphicsDevice* EffekseerSettingCore::GetGraphicsDevice() const { return graphicsDevice_; }
 
 EffekseerSettingCore* EffekseerSettingCore::create()
 {

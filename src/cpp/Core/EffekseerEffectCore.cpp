@@ -72,6 +72,20 @@ bool EffekseerEffectCore::LoadTexture(char* data, int len, int32_t index, Effeks
 	return true;
 }
 
+bool EffekseerEffectCore::HasTextureLoaded(int32_t index, EffekseerTextureType type)
+{
+	if (type != EffekseerTextureType::Color)
+		return effect_->GetColorImage(index) != nullptr;
+
+	if (type != EffekseerTextureType::Normal)
+		return effect_->GetNormalImage(index) != nullptr;
+
+	if (type != EffekseerTextureType::Distortion)
+		return effect_->GetDistortionImage(index) != nullptr;
+
+	return false;
+}
+
 const char16_t* EffekseerEffectCore::GetModelPath(int32_t index) const { return effect_->GetModelPath(index); }
 
 int32_t EffekseerEffectCore::GetModelCount() const { return effect_->GetModelCount(); }
@@ -95,5 +109,7 @@ bool EffekseerEffectCore::LoadModel(char* data, int len, int32_t index)
 
 	return true;
 }
+
+bool EffekseerEffectCore::HasModelLoaded(int32_t index) { return effect_->GetModel(index) != nullptr; }
 
 Effekseer::Effect* EffekseerEffectCore::GetInternal() const { return effect_; }
