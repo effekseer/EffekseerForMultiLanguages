@@ -5,10 +5,7 @@ EffekseerEffectCore::EffekseerEffectCore() {}
 
 EffekseerEffectCore::~EffekseerEffectCore() { ES_SAFE_RELEASE(effect_); }
 
-bool EffekseerEffectCore::Load(char* data, int len, float magnification)
-{
-	return Load((const unsigned char*)data, len, magnification);
-}
+bool EffekseerEffectCore::Load(char* data, int len, float magnification) { return Load((const unsigned char*)data, len, magnification); }
 
 bool EffekseerEffectCore::Load(const unsigned char* data, int len, float magnification)
 {
@@ -100,10 +97,7 @@ const char16_t* EffekseerEffectCore::GetModelPath(int32_t index) const { return 
 
 int32_t EffekseerEffectCore::GetModelCount() const { return effect_->GetModelCount(); }
 
-bool EffekseerEffectCore::LoadModel(char* data, int len, int32_t index)
-{
-	return LoadModel((const unsigned char*)data, len, index);
-}
+bool EffekseerEffectCore::LoadModel(char* data, int len, int32_t index) { return LoadModel((const unsigned char*)data, len, index); }
 
 bool EffekseerEffectCore::LoadModel(const unsigned char* data, int len, int32_t index)
 {
@@ -126,5 +120,31 @@ bool EffekseerEffectCore::LoadModel(const unsigned char* data, int len, int32_t 
 }
 
 bool EffekseerEffectCore::HasModelLoaded(int32_t index) { return effect_->GetModel(index) != nullptr; }
+
+bool EffekseerEffectCore::LoadMaterial(char* data, int len, int32_t index) { return LoadMaterial((const unsigned char*)data, len, index); }
+
+bool EffekseerEffectCore::LoadMaterial(const unsigned char* data, int len, int32_t index)
+{
+	auto loader = effect_->GetSetting()->GetMaterialLoader();
+	if (loader == nullptr)
+	{
+		return false;
+	}
+
+	auto material = loader->Load((const void*)data, len, Effekseer::MaterialFileType::Code);
+
+	if (material == nullptr)
+	{
+		return false;
+	}
+
+	effect_->SetMaterial(index, material);
+
+	return true;
+}
+
+bool EffekseerEffectCore::HasMaterialLoaded(int32_t index) { return effect_->GetMaterial(index) != nullptr; }
+
+int32_t EffekseerEffectCore::GetMaterialCount() const { return effect_->GetMaterialCount(); }
 
 Effekseer::Effect* EffekseerEffectCore::GetInternal() const { return effect_; }

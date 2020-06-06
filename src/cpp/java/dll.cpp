@@ -521,6 +521,65 @@ SWIGEXPORT jboolean JNICALL Java_Effekseer_swig_EffekseerCoreJNI_EffekseerEffect
 }
 
 
+SWIGEXPORT jboolean JNICALL Java_Effekseer_swig_EffekseerCoreJNI_EffekseerEffectCore_1LoadMaterial(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jbyteArray jarg2, jint jarg3, jint jarg4) {
+  jboolean jresult = 0 ;
+  EffekseerEffectCore *arg1 = (EffekseerEffectCore *) 0 ;
+  char *arg2 = (char *) 0 ;
+  int arg3 ;
+  int32_t arg4 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(EffekseerEffectCore **)&jarg1; 
+  {
+    arg2 = (char *) jenv->GetByteArrayElements(jarg2, 0); 
+  }
+  arg3 = (int)jarg3; 
+  arg4 = (int32_t)jarg4; 
+  result = (bool)(arg1)->LoadMaterial(arg2,arg3,arg4);
+  jresult = (jboolean)result; 
+  {
+    jenv->ReleaseByteArrayElements(jarg2, (jbyte *) arg2, 0); 
+  }
+  
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_Effekseer_swig_EffekseerCoreJNI_EffekseerEffectCore_1HasMaterialLoaded(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  jboolean jresult = 0 ;
+  EffekseerEffectCore *arg1 = (EffekseerEffectCore *) 0 ;
+  int32_t arg2 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(EffekseerEffectCore **)&jarg1; 
+  arg2 = (int32_t)jarg2; 
+  result = (bool)(arg1)->HasMaterialLoaded(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_Effekseer_swig_EffekseerCoreJNI_EffekseerEffectCore_1GetMaterialCount(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  EffekseerEffectCore *arg1 = (EffekseerEffectCore *) 0 ;
+  int32_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(EffekseerEffectCore **)&jarg1; 
+  result = (int32_t)((EffekseerEffectCore const *)arg1)->GetMaterialCount();
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
 SWIGEXPORT jlong JNICALL Java_Effekseer_swig_EffekseerCoreJNI_new_1EffekseerManagerCore(JNIEnv *jenv, jclass jcls) {
   jlong jresult = 0 ;
   EffekseerManagerCore *result = 0 ;

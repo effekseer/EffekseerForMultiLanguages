@@ -261,6 +261,15 @@ class EffekseerCorePINVOKE {
   [global::System.Runtime.InteropServices.DllImport("EffekseerNativeForCSharp", EntryPoint="CSharp_Effekseerfswig_EffekseerEffectCore_HasModelLoaded___")]
   public static extern bool EffekseerEffectCore_HasModelLoaded(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
+  [global::System.Runtime.InteropServices.DllImport("EffekseerNativeForCSharp", EntryPoint="CSharp_Effekseerfswig_EffekseerEffectCore_LoadMaterial___")]
+  public static extern bool EffekseerEffectCore_LoadMaterial(global::System.Runtime.InteropServices.HandleRef jarg1, [global::System.Runtime.InteropServices.In, global::System.Runtime.InteropServices.MarshalAs(global::System.Runtime.InteropServices.UnmanagedType.LPArray)]byte[] jarg2, int jarg3, int jarg4);
+
+  [global::System.Runtime.InteropServices.DllImport("EffekseerNativeForCSharp", EntryPoint="CSharp_Effekseerfswig_EffekseerEffectCore_HasMaterialLoaded___")]
+  public static extern bool EffekseerEffectCore_HasMaterialLoaded(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("EffekseerNativeForCSharp", EntryPoint="CSharp_Effekseerfswig_EffekseerEffectCore_GetMaterialCount___")]
+  public static extern int EffekseerEffectCore_GetMaterialCount(global::System.Runtime.InteropServices.HandleRef jarg1);
+
   [global::System.Runtime.InteropServices.DllImport("EffekseerNativeForCSharp", EntryPoint="CSharp_Effekseerfswig_new_EffekseerManagerCore___")]
   public static extern global::System.IntPtr new_EffekseerManagerCore();
 

@@ -76,4 +76,16 @@ public class EffekseerEffectCore {
     return EffekseerCoreJNI.EffekseerEffectCore_HasModelLoaded(swigCPtr, this, index);
   }
 
+  public boolean LoadMaterial(byte[] data, int len, int index) {
+    return EffekseerCoreJNI.EffekseerEffectCore_LoadMaterial(swigCPtr, this, data, len, index);
+  }
+
+  public boolean HasMaterialLoaded(int index) {
+    return EffekseerCoreJNI.EffekseerEffectCore_HasMaterialLoaded(swigCPtr, this, index);
+  }
+
+  public int GetMaterialCount() {
+    return EffekseerCoreJNI.EffekseerEffectCore_GetMaterialCount(swigCPtr, this);
+  }
+
 }

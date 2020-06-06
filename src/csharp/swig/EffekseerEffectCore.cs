@@ -92,6 +92,21 @@ public class EffekseerEffectCore : global::System.IDisposable {
     return ret;
   }
 
+  public bool LoadMaterial(byte[] data, int len, int index) {
+    bool ret = EffekseerCorePINVOKE.EffekseerEffectCore_LoadMaterial(swigCPtr, data, len, index);
+    return ret;
+  }
+
+  public bool HasMaterialLoaded(int index) {
+    bool ret = EffekseerCorePINVOKE.EffekseerEffectCore_HasMaterialLoaded(swigCPtr, index);
+    return ret;
+  }
+
+  public int GetMaterialCount() {
+    int ret = EffekseerCorePINVOKE.EffekseerEffectCore_GetMaterialCount(swigCPtr);
+    return ret;
+  }
+
 }
 
 }

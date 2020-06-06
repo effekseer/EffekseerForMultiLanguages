@@ -54,6 +54,18 @@ public:
 
 	bool HasModelLoaded(int32_t index);
 
+#if !defined(SWIGCSHARP)
+	bool LoadMaterial(char* data, int len, int32_t index);
+#endif
+
+#if !defined(SWIGJAVA)
+	bool LoadMaterial(const unsigned char* data, int len, int32_t index);
+#endif
+
+	bool HasMaterialLoaded(int32_t index);
+
+	int32_t GetMaterialCount() const;
+
 	/**
 	 * TODO : imeplement a funtions to load resources
 	 * Plan
