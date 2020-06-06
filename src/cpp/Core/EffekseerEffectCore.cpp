@@ -7,6 +7,11 @@ EffekseerEffectCore::~EffekseerEffectCore() { ES_SAFE_RELEASE(effect_); }
 
 bool EffekseerEffectCore::Load(char* data, int len, float magnification)
 {
+	return Load((const unsigned char*)data, len, magnification);
+}
+
+bool EffekseerEffectCore::Load(const unsigned char* data, int len, float magnification)
+{
 	ES_SAFE_RELEASE(effect_);
 	effect_ = ::Effekseer::Effect::Create(EffekseerSettingCore::create(), (void*)data, len, magnification);
 	return effect_ != nullptr;
@@ -54,6 +59,11 @@ int32_t EffekseerEffectCore::GetTextureCount(EffekseerTextureType type) const
 
 bool EffekseerEffectCore::LoadTexture(char* data, int len, int32_t index, EffekseerTextureType type)
 {
+	return LoadTexture((const unsigned char*)data, len, index, type);
+}
+
+bool EffekseerEffectCore::LoadTexture(const unsigned char* data, int len, int32_t index, EffekseerTextureType type)
+{
 	auto loader = effect_->GetSetting()->GetTextureLoader();
 	if (loader == nullptr)
 	{
@@ -91,6 +101,11 @@ const char16_t* EffekseerEffectCore::GetModelPath(int32_t index) const { return 
 int32_t EffekseerEffectCore::GetModelCount() const { return effect_->GetModelCount(); }
 
 bool EffekseerEffectCore::LoadModel(char* data, int len, int32_t index)
+{
+	return LoadModel((const unsigned char*)data, len, index);
+}
+
+bool EffekseerEffectCore::LoadModel(const unsigned char* data, int len, int32_t index)
 {
 	auto loader = effect_->GetSetting()->GetModelLoader();
 	if (loader == nullptr)

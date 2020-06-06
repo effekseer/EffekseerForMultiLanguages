@@ -56,6 +56,10 @@ public class EffekseerEffectCore {
     return EffekseerCoreJNI.EffekseerEffectCore_LoadTexture(swigCPtr, this, data, len, index, type.swigValue());
   }
 
+  public boolean HasTextureLoaded(int index, EffekseerTextureType type) {
+    return EffekseerCoreJNI.EffekseerEffectCore_HasTextureLoaded(swigCPtr, this, index, type.swigValue());
+  }
+
   public String GetModelPath(int index) {
     return EffekseerCoreJNI.EffekseerEffectCore_GetModelPath(swigCPtr, this, index);
   }
@@ -66,6 +70,10 @@ public class EffekseerEffectCore {
 
   public boolean LoadModel(byte[] data, int len, int index) {
     return EffekseerCoreJNI.EffekseerEffectCore_LoadModel(swigCPtr, this, data, len, index);
+  }
+
+  public boolean HasModelLoaded(int index) {
+    return EffekseerCoreJNI.EffekseerEffectCore_HasModelLoaded(swigCPtr, this, index);
   }
 
 }

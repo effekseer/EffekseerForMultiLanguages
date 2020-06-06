@@ -424,6 +424,25 @@ SWIGEXPORT jboolean JNICALL Java_Effekseer_swig_EffekseerCoreJNI_EffekseerEffect
 }
 
 
+SWIGEXPORT jboolean JNICALL Java_Effekseer_swig_EffekseerCoreJNI_EffekseerEffectCore_1HasTextureLoaded(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jint jarg3) {
+  jboolean jresult = 0 ;
+  EffekseerEffectCore *arg1 = (EffekseerEffectCore *) 0 ;
+  int32_t arg2 ;
+  EffekseerTextureType arg3 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(EffekseerEffectCore **)&jarg1; 
+  arg2 = (int32_t)jarg2; 
+  arg3 = (EffekseerTextureType)jarg3; 
+  result = (bool)(arg1)->HasTextureLoaded(arg2,arg3);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
 SWIGEXPORT jstring JNICALL Java_Effekseer_swig_EffekseerCoreJNI_EffekseerEffectCore_1GetModelPath(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
   jstring jresult = 0 ;
   EffekseerEffectCore *arg1 = (EffekseerEffectCore *) 0 ;
@@ -481,6 +500,23 @@ SWIGEXPORT jboolean JNICALL Java_Effekseer_swig_EffekseerCoreJNI_EffekseerEffect
     jenv->ReleaseByteArrayElements(jarg2, (jbyte *) arg2, 0); 
   }
   
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_Effekseer_swig_EffekseerCoreJNI_EffekseerEffectCore_1HasModelLoaded(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  jboolean jresult = 0 ;
+  EffekseerEffectCore *arg1 = (EffekseerEffectCore *) 0 ;
+  int32_t arg2 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(EffekseerEffectCore **)&jarg1; 
+  arg2 = (int32_t)jarg2; 
+  result = (bool)(arg1)->HasModelLoaded(arg2);
+  jresult = (jboolean)result; 
   return jresult;
 }
 

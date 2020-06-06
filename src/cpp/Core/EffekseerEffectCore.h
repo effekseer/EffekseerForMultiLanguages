@@ -18,13 +18,25 @@ public:
 	EffekseerEffectCore();
 	~EffekseerEffectCore();
 
+#if !defined(SWIGCSHARP)
 	bool Load(char* data, int len, float magnification);
+#endif
+
+#if !defined(SWIGJAVA)
+	bool Load(const unsigned char* data, int len, float magnification);
+#endif
 
 	const char16_t* GetTexturePath(int32_t index, EffekseerTextureType type) const;
 
 	int32_t GetTextureCount(EffekseerTextureType type) const;
 
+#if !defined(SWIGCSHARP)
 	bool LoadTexture(char* data, int len, int32_t index, EffekseerTextureType type);
+#endif
+
+#if !defined(SWIGJAVA)
+	bool LoadTexture(const unsigned char* data, int len, int32_t index, EffekseerTextureType type);
+#endif
 
 	bool HasTextureLoaded(int32_t index, EffekseerTextureType type);
 
@@ -32,7 +44,13 @@ public:
 
 	int32_t GetModelCount() const;
 
+#if !defined(SWIGCSHARP)
 	bool LoadModel(char* data, int len, int32_t index);
+#endif
+
+#if !defined(SWIGJAVA)
+	bool LoadModel(const unsigned char* data, int len, int32_t index);
+#endif
 
 	bool HasModelLoaded(int32_t index);
 
