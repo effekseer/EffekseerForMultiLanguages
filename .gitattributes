@@ -3,3 +3,4 @@
 *.vcxproj eol=crlf
 *.vcxproj.filters eol=crlf
 *.i eol=lf
+*.py eol=lf

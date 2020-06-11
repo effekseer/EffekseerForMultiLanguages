@@ -539,6 +539,32 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Effekseerfswig_EffekseerEffectCore_Ha
 }
 
 
+SWIGEXPORT char16_t * SWIGSTDCALL CSharp_Effekseerfswig_EffekseerEffectCore_GetMaterialPath___(void * jarg1, int jarg2) {
+  char16_t * jresult ;
+  EffekseerEffectCore *arg1 = (EffekseerEffectCore *) 0 ;
+  int32_t arg2 ;
+  char16_t *result = 0 ;
+  
+  arg1 = (EffekseerEffectCore *)jarg1; 
+  arg2 = (int32_t)jarg2; 
+  result = (char16_t *)((EffekseerEffectCore const *)arg1)->GetMaterialPath(arg2);
+  jresult = (char16_t *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_Effekseerfswig_EffekseerEffectCore_GetMaterialCount___(void * jarg1) {
+  int jresult ;
+  EffekseerEffectCore *arg1 = (EffekseerEffectCore *) 0 ;
+  int32_t result;
+  
+  arg1 = (EffekseerEffectCore *)jarg1; 
+  result = (int32_t)((EffekseerEffectCore const *)arg1)->GetMaterialCount();
+  jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Effekseerfswig_EffekseerEffectCore_LoadMaterial___(void * jarg1, unsigned char* jarg2, int jarg3, int jarg4) {
   unsigned int jresult ;
   EffekseerEffectCore *arg1 = (EffekseerEffectCore *) 0 ;
@@ -568,18 +594,6 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Effekseerfswig_EffekseerEffectCore_Ha
   arg1 = (EffekseerEffectCore *)jarg1; 
   arg2 = (int32_t)jarg2; 
   result = (bool)(arg1)->HasMaterialLoaded(arg2);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT int SWIGSTDCALL CSharp_Effekseerfswig_EffekseerEffectCore_GetMaterialCount___(void * jarg1) {
-  int jresult ;
-  EffekseerEffectCore *arg1 = (EffekseerEffectCore *) 0 ;
-  int32_t result;
-  
-  arg1 = (EffekseerEffectCore *)jarg1; 
-  result = (int32_t)((EffekseerEffectCore const *)arg1)->GetMaterialCount();
   jresult = result; 
   return jresult;
 }

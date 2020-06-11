@@ -115,7 +115,19 @@ public class libGdxSample extends ApplicationAdapter {
             effectCore.LoadModel(bytes, bytes.length, i);
         }
 
-	    // TODO material
+		for (int i = 0; i < effectCore.GetMaterialCount(); i++) {
+			String path = (new File(effectPath)).getParent();
+			if (path != null) {
+				path += "/" + effectCore.GetMaterialPath(i);
+			} else {
+				path = effectCore.GetMaterialPath(i);
+			}
+
+			handle = Gdx.files.internal(path);
+			byte[] bytes = handle.readBytes();
+			effectCore.LoadMaterial(bytes, bytes.length, i);
+		}
+
         // TODO sound
 
         return effectCore;

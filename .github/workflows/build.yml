@@ -24,7 +24,7 @@ jobs:
       - name: Build
         run: |
          cd examples
-         libGtxSample.bat
+         python build_libGtxSample.py
         shell: cmd
 
       - name: libGDX_Sample

@@ -121,6 +121,10 @@ bool EffekseerEffectCore::LoadModel(const unsigned char* data, int len, int32_t 
 
 bool EffekseerEffectCore::HasModelLoaded(int32_t index) { return effect_->GetModel(index) != nullptr; }
 
+const char16_t* EffekseerEffectCore::GetMaterialPath(int32_t index) const { return effect_->GetMaterialPath(index); }
+
+int32_t EffekseerEffectCore::GetMaterialCount() const { return effect_->GetMaterialCount(); }
+
 bool EffekseerEffectCore::LoadMaterial(char* data, int len, int32_t index) { return LoadMaterial((const unsigned char*)data, len, index); }
 
 bool EffekseerEffectCore::LoadMaterial(const unsigned char* data, int len, int32_t index)
@@ -144,7 +148,5 @@ bool EffekseerEffectCore::LoadMaterial(const unsigned char* data, int len, int32
 }
 
 bool EffekseerEffectCore::HasMaterialLoaded(int32_t index) { return effect_->GetMaterial(index) != nullptr; }
-
-int32_t EffekseerEffectCore::GetMaterialCount() const { return effect_->GetMaterialCount(); }
 
 Effekseer::Effect* EffekseerEffectCore::GetInternal() const { return effect_; }

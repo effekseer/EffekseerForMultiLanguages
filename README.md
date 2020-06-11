@@ -4,6 +4,7 @@ Effekseer for C# and Java
 
 ### Requirements
 - git
+- python
 - C++ compiler
 - cmake (3.15 or later)
 - JDK (If you develop it for JVM)
@@ -25,7 +26,7 @@ please see examples
 
 #### Windows
 
-call ``` examples/libGtxSample.bat ```
+call ```python examples/build_libGtxSample.py ```
 
 ## How to Develop
 

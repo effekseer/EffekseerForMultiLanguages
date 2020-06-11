@@ -54,6 +54,10 @@ public:
 
 	bool HasModelLoaded(int32_t index);
 
+	const char16_t* GetMaterialPath(int32_t index) const;
+
+	int32_t GetMaterialCount() const;
+
 #if !defined(SWIGCSHARP)
 	bool LoadMaterial(char* data, int len, int32_t index);
 #endif
@@ -63,8 +67,6 @@ public:
 #endif
 
 	bool HasMaterialLoaded(int32_t index);
-
-	int32_t GetMaterialCount() const;
 
 	/**
 	 * TODO : imeplement a funtions to load resources

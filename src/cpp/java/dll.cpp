@@ -521,6 +521,40 @@ SWIGEXPORT jboolean JNICALL Java_Effekseer_swig_EffekseerCoreJNI_EffekseerEffect
 }
 
 
+SWIGEXPORT jstring JNICALL Java_Effekseer_swig_EffekseerCoreJNI_EffekseerEffectCore_1GetMaterialPath(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  jstring jresult = 0 ;
+  EffekseerEffectCore *arg1 = (EffekseerEffectCore *) 0 ;
+  int32_t arg2 ;
+  char16_t *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(EffekseerEffectCore **)&jarg1; 
+  arg2 = (int32_t)jarg2; 
+  result = (char16_t *)((EffekseerEffectCore const *)arg1)->GetMaterialPath(arg2);
+  {
+    if(result) jresult = jenv->NewString((const jchar *) result, char16_len (result)); 
+  }
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_Effekseer_swig_EffekseerCoreJNI_EffekseerEffectCore_1GetMaterialCount(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  EffekseerEffectCore *arg1 = (EffekseerEffectCore *) 0 ;
+  int32_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(EffekseerEffectCore **)&jarg1; 
+  result = (int32_t)((EffekseerEffectCore const *)arg1)->GetMaterialCount();
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
 SWIGEXPORT jboolean JNICALL Java_Effekseer_swig_EffekseerCoreJNI_EffekseerEffectCore_1LoadMaterial(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jbyteArray jarg2, jint jarg3, jint jarg4) {
   jboolean jresult = 0 ;
   EffekseerEffectCore *arg1 = (EffekseerEffectCore *) 0 ;
@@ -561,21 +595,6 @@ SWIGEXPORT jboolean JNICALL Java_Effekseer_swig_EffekseerCoreJNI_EffekseerEffect
   arg2 = (int32_t)jarg2; 
   result = (bool)(arg1)->HasMaterialLoaded(arg2);
   jresult = (jboolean)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jint JNICALL Java_Effekseer_swig_EffekseerCoreJNI_EffekseerEffectCore_1GetMaterialCount(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jint jresult = 0 ;
-  EffekseerEffectCore *arg1 = (EffekseerEffectCore *) 0 ;
-  int32_t result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(EffekseerEffectCore **)&jarg1; 
-  result = (int32_t)((EffekseerEffectCore const *)arg1)->GetMaterialCount();
-  jresult = (jint)result; 
   return jresult;
 }
 
