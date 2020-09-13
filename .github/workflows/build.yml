@@ -2,24 +2,260 @@ on:
   push:
     branches:
       - master
+  release:
+    types: [published]
   pull_request:
     branches:
       - master
 jobs:
 
-  windows:
-    name: windows Build
-    runs-on: vs2017-win2016
+  buildNative:
+    strategy:
+      matrix:
+        os: [ubuntu-latest,windows-latest]
+        include:
+          - os: ubuntu-latest
+            scriptExt: "sh"
+            libExt: "so"
+            name: "linux"
+          - os: windows-latest
+            scriptExt: "bat"
+            libExt: "dll"
+            name: "windows"
+    name: Build Natives - ${{ matrix.name }}
+    runs-on:  ${{ matrix.os }}
     steps:
+
       - uses: actions/checkout@v2
+        with:
+            fetch-depth: 1
+            submodules: true
+
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      
+      - name: Install dependencies for ubuntu-latest
+        if: matrix.os == 'ubuntu-latest'
+        run: sudo apt update && sudo apt install libpulse-dev libglvnd-dev libx11-dev libopenal-dev libvulkan-dev libgl1-mesa-dev libgles2-mesa-dev libglu1-mesa-dev libgtk-3-dev ninja-build swig
+
+      - name: Install dependencies for windows-latest
+        if: matrix.os == 'windows-latest'
+        uses: crazy-max/ghaction-chocolatey@v1
+        with:
+          args: install swig
+
+      - name: Generate Swig Wrappers
+        shell: bash
+        run: |
+          cd src
+          chmod +x ./generate_swig_wrapper.${{ matrix.scriptExt }}
+          ./generate_swig_wrapper.${{ matrix.scriptExt }}
+          cd ..
+
+      - name: Build natives for ${{ matrix.name }}
+        shell: bash
+        run: |  
+          mkdir -p build/dist-native
+
+          cd build
+
+          cmake -D BUILD_DX12=OFF -D BUILD_EXAMPLES=OFF ..
+          cmake --build . --config Release
+
+          dest="dist-native/${{ matrix.name }}/x86_64"
+          mkdir -p "$dest"
+          cp -v src/cpp/Release/*.${{ matrix.libExt }} "$dest"||cp -v src/cpp/*.${{ matrix.libExt }} "$dest"
+
+      - name: Upload Natives
+        uses: actions/upload-artifact@v1
+        with:
+          name: natives-${{ matrix.name }}
+          path: build/dist-native
+
+  buildJavaLibrary:
+    needs: [buildNative]
+    name: Build java library
+    runs-on:  ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v2
+        with:
+            fetch-depth: 1
+            submodules: true
 
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
 
-      - run: |
-         git submodule update --init
+      - name: Install dependencies for ubuntu-latest
+        if: matrix.os == 'ubuntu-latest'
+        run: sudo apt update && sudo apt install swig
+
+      - name: Download Natives (linux)
+        uses: actions/download-artifact@v1
+        with:
+          name: natives-linux
+          path: build/dist-natives
+
+      - name: Download Natives (windows)
+        uses: actions/download-artifact@v1
+        with:
+          name: natives-windows
+          path: build/dist-natives
+
+      - name: Build Maven Artifacts
+        shell: bash
+        run: |
+          cdd=$PWD
+          cd build/dist-natives/
+          for pl in *; do
+              if [ -d "$pl" ]; then
+                cd $pl
+                for arch in *; do
+                  if [ -d "$arch" ]; then
+                    cd $arch
+                    mkdir -p $cdd/build/java-natives/$pl/$arch/
+                    cp -R *Java* $cdd/build/java-natives/$pl/$arch/
+                    cd ..
+                  fi
+                done
+                cd ..
+              fi
+          done
+          cd "$cdd"
+         
+
+          export VERSION="`if [[ $GITHUB_REF == refs\/tags* ]]; then echo ${GITHUB_REF//refs\/tags\//}; fi`"
+          if [ "$VERSION" = "" ];
+          then
+            branch="`if [[ $GITHUB_REF == refs\/heads* ]]; then echo ${GITHUB_REF//refs\/heads\//}; fi`"
+            export VERSION="$branch-SNAPSHOT"
+          fi
+
+          cd src
+          chmod +x ./generate_maven_artifacts.sh
+          ./generate_maven_artifacts.sh
+      
+      - name: Upload Maven Artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: dist-java
+          path: build/maven
+
+
+  buildCSharpLibrary:
+    needs: [buildNative]
+    name: Build C# library
+    runs-on:  ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v2
+        with:
+            fetch-depth: 1
+            submodules: true
+
+      - name: Install dependencies for ubuntu-latest
+        if: matrix.os == 'ubuntu-latest'
+        run: sudo apt update && sudo apt install swig
+
+      - name: Download Natives (linux)
+        uses: actions/download-artifact@v1
+        with:
+          name: natives-linux
+          path: build/dist-natives
+
+      - name: Download Natives (windows)
+        uses: actions/download-artifact@v1
+        with:
+          name: natives-windows
+          path: build/dist-natives
+
+
+      - name: Build C# Library
+        shell: bash
+        run: |
+    
+
+          cdd=$PWD
+          cd build/dist-natives/
+          for pl in *; do
+              if [ -d "$pl" ]; then
+                cd $pl
+                for arch in *; do
+                  if [ -d "$arch" ]; then
+                    cd $arch
+                    mkdir -p $cdd/build/dist-csharp/$pl/$arch/
+                    cp -R *CSharp* $cdd/build/dist-csharp/$pl/$arch/
+                    cd ..
+                  fi
+                done
+                cd ..
+              fi
+          done
+          cd "$cdd"
+         
+
+          cd src
+          chmod +x ./generate_swig_wrapper.sh
+          ./generate_swig_wrapper.sh
+          cd ..
+
+          mkdir -p build/dist-csharp/Effekseer
+          cp -R src/csharp/swig build/dist-csharp/Effekseer/
+      
+      - name: Upload C# Library
+        uses: actions/upload-artifact@v1
+        with:
+          name: dist-csharp
+          path: build/dist-csharp
+
+
+
+
+  deploy:
+    needs: [buildCSharpLibrary,buildJavaLibrary]
+    name: Deploy
+    runs-on:  ubuntu-latest
+    steps:
+      - name: Download Maven Artifacts
+        uses: actions/download-artifact@v1
+        with:
+          name: dist-java
+          path: maven
+
+      - name: Deploy Maven Artifacts to Package Registry
+        if: github.event_name == 'release'
+        run: |
+          cd maven
+          ls -lh
+          set -e 
+          files="`find . \( -name "*.jar" -o -name "*.pom" \) -type f -print`"
+          set -f
+          for art in $files; do
+              file="${art:2}"
+              dest="https://maven.pkg.github.com/$GITHUB_REPOSITORY/$file" 
+              echo "Upload $file to $dest"
+              curl -X PUT  $dest -H "Authorization: token  ${{ secrets.GITHUB_TOKEN }}" --upload-file $file -vvv
+          done
+          set +f
+
+  windowsExamples:
+    name: Build Windows Samples
+    runs-on: vs2017-win2016
+    steps:
+      - uses: actions/checkout@v2
+        with:
+            fetch-depth: 1
+            submodules: true
+      
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
         
       - name: Build
         run: |
@@ -30,5 +266,7 @@ jobs:
       - name: libGDX_Sample
         uses: actions/upload-artifact@v1
         with:
-          name: libGdxSample
+          name: libGdxSample-windows
           path: examples/libGdxSample
+
+
