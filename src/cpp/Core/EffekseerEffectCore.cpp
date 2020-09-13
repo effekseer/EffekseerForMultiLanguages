@@ -1,4 +1,4 @@
-#include "effekseerEffectCore.h"
+#include "EffekseerEffectCore.h"
 #include <assert.h>
 
 EffekseerEffectCore::EffekseerEffectCore() {}
