@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 project(EffekseerForMultiLanguages LANGUAGES C CXX)
 
@@ -22,6 +23,10 @@ if (WIN32)
       endif()
     endforeach()
   endif()
+endif()
+
+if(UNIX AND NOT APPLE)
+  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS}   -Wl,--start-group ")
 endif()
 
 add_subdirectory(src)
