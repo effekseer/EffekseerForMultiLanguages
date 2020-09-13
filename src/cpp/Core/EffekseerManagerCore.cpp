@@ -3,6 +3,77 @@
 #include "EffekseerEffectCore.h"
 #include <EffekseerRendererGL.h>
 
+inline void matrixFromValues(::Effekseer::Matrix44& matrix, 
+	float matrixArray0,
+	float matrixArray1,
+	float matrixArray2,
+	float matrixArray3,
+	float matrixArray4,
+	float matrixArray5,
+	float matrixArray6,
+	float matrixArray7,
+	float matrixArray8,
+	float matrixArray9,
+	float matrixArray10,
+	float matrixArray11,
+	float matrixArray12,
+	float matrixArray13,
+	float matrixArray14,
+	float matrixArray15
+)
+{
+	matrix.Values[0][0] = matrixArray0;
+	matrix.Values[1][0] = matrixArray1;
+	matrix.Values[2][0] = matrixArray2;
+	matrix.Values[3][0] = matrixArray3;
+	matrix.Values[0][1] = matrixArray4;
+	matrix.Values[1][1] = matrixArray5;
+	matrix.Values[2][1] = matrixArray6;
+	matrix.Values[3][1] = matrixArray7;
+	matrix.Values[0][2] = matrixArray8;
+	matrix.Values[1][2] = matrixArray9;
+	matrix.Values[2][2] = matrixArray10;
+	matrix.Values[3][2] = matrixArray11;
+	matrix.Values[0][3] = matrixArray12;
+	matrix.Values[1][3] = matrixArray13;
+	matrix.Values[2][3] = matrixArray14;
+	matrix.Values[3][3] = matrixArray15;
+}
+
+
+
+inline void matrixFromValues(::Effekseer::Matrix43& matrix, 
+	float matrixArray0,
+	float matrixArray1,
+	float matrixArray2,
+	float matrixArray3,
+	float matrixArray4,
+	float matrixArray5,
+	float matrixArray6,
+	float matrixArray7,
+	float matrixArray8,
+	float matrixArray9,
+	float matrixArray10,
+	float matrixArray11
+)
+{
+	matrix.Value[0][0] = matrixArray0;
+	matrix.Value[1][0] = matrixArray1;
+	matrix.Value[2][0] = matrixArray2;
+	matrix.Value[3][0] = matrixArray3;
+
+	matrix.Value[0][1] = matrixArray4;
+	matrix.Value[1][1] = matrixArray5;
+	matrix.Value[2][1] = matrixArray6;
+	matrix.Value[3][1] = matrixArray7;
+
+	matrix.Value[0][2] = matrixArray8;
+	matrix.Value[1][2] = matrixArray9;
+	matrix.Value[2][2] = matrixArray10;
+	matrix.Value[3][2] = matrixArray11;
+}
+
+
 EffekseerManagerCore::~EffekseerManagerCore()
 {
 	if (manager_ != nullptr)
@@ -69,13 +140,29 @@ int EffekseerManagerCore::Play(EffekseerEffectCore* effect)
 	{
 		return -1;
 	}
-
 	return manager_->Play(effect->GetInternal(), ::Effekseer::Vector3D());
+}
+
+void EffekseerManagerCore::SetShown(int handle, bool v)
+{
+	return manager_->SetShown(handle,v);
 }
 
 void EffekseerManagerCore::SetEffectPosition(int handle, float x, float y, float z)
 {
 	manager_->SetLocation(handle, x, y, z);
+}
+
+void EffekseerManagerCore::SetEffectTransformMatrix(int handle, float v0,float v1,float v2,float v3,float v4,float v5,float v6,float v7,float v8,float v9,float v10,float v11)
+{
+	::Effekseer::Matrix43 m=::Effekseer::Matrix43();
+	matrixFromValues(m,v0,v1,v2,v3,v4,v5,v6,v7,v8,v9,v10,v11);		
+	manager_->SetMatrix(handle,m);
+}
+
+void EffekseerManagerCore::SetPaused(int handle, bool v)
+{
+	manager_->SetPaused(handle,v);
 }
 
 void EffekseerManagerCore::DrawBack()
@@ -100,6 +187,32 @@ void EffekseerManagerCore::DrawFront()
 	renderer_->BeginRendering();
 	manager_->DrawFront();
 	renderer_->EndRendering();
+}
+
+
+
+void EffekseerManagerCore::SetProjectionMatrix(float v0,float v1,float v2,float v3,float v4,float v5,float v6,float v7,float v8,float v9,float v10,float v11,float v12,float v13,float v14,float v15)
+{
+	if (manager_ == nullptr)
+	{
+		return;
+	}
+
+	::Effekseer::Matrix44 m=::Effekseer::Matrix44();
+	matrixFromValues(m,v0,v1,v2,v3,v4,v5,v6,v7,v8,v9,v10,v11,v12,v13,v14,v15);		
+	renderer_->SetProjectionMatrix(m);
+}
+	
+void EffekseerManagerCore::SetCameraMatrix(float v0,float v1,float v2,float v3,float v4,float v5,float v6,float v7,float v8,float v9,float v10,float v11,float v12,float v13,float v14,float v15)
+{
+	if (manager_ == nullptr)
+	{
+		return;
+	}
+
+	::Effekseer::Matrix44 m=::Effekseer::Matrix44();
+	matrixFromValues(m,v0,v1,v2,v3,v4,v5,v6,v7,v8,v9,v10,v11,v12,v13,v14,v15);		
+	renderer_->SetCameraMatrix(m);
 }
 
 void EffekseerManagerCore::SetViewProjectionMatrixWithSimpleWindow(int32_t windowWidth, int32_t windowHeight)
