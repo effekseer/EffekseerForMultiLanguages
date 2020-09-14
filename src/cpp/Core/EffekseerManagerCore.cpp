@@ -183,7 +183,7 @@ void EffekseerManagerCore::DrawFront()
 	{
 		return;
 	}
-
+	
 	renderer_->BeginRendering();
 	manager_->DrawFront();
 	renderer_->EndRendering();
@@ -229,3 +229,12 @@ void EffekseerManagerCore::SetViewProjectionMatrixWithSimpleWindow(int32_t windo
 																::Effekseer::Vector3D(windowWidth / 2.0f, windowHeight / 2.0f, -200.0f),
 																::Effekseer::Vector3D(0.0f, 1.0f, 0.0f)));
 }
+
+	void EffekseerManagerCore::SetDynamicInput(int handle,int32_t index,float value){
+		manager_->SetDynamicInput(handle,index,value);
+	}
+
+	float EffekseerManagerCore::GetDynamicInput(int handle,int32_t index){
+		return manager_->GetDynamicInput(handle,index);
+	}
+

@@ -44,4 +44,8 @@ public:
 	
 
 	void SetViewProjectionMatrixWithSimpleWindow(int32_t windowWidth, int32_t windowHeight);
+
+	void SetDynamicInput(int handle,int32_t index,float value);
+
+	float GetDynamicInput(int handle,int32_t index);
 };
