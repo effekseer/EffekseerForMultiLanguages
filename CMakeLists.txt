@@ -3,30 +3,23 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 project(EffekseerForMultiLanguages LANGUAGES C CXX)
 
-option(USE_MSVC_RUNTIME_LIBRARY_DLL OFF)
+option(USE_MSVC_RUNTIME_LIBRARY_DLL "Whether Multithreaded DLL" OFF)
 
 # Flags
 if (WIN32)
-  if (NOT USE_MSVC_RUNTIME_LIBRARY_DLL)
-    foreach (flag CMAKE_C_FLAGS
-      CMAKE_C_FLAGS_DEBUG
-      CMAKE_C_FLAGS_RELEASE
-      CMAKE_CXX_FLAGS
-      CMAKE_CXX_FLAGS_DEBUG
-      CMAKE_CXX_FLAGS_RELEASE)
-
-      if (${flag} MATCHES "/MD")
-        string(REGEX REPLACE "/MD" "/MT" ${flag} "${${flag}}")
-      endif()
-      if (${flag} MATCHES "/MDd")
-        string(REGEX REPLACE "/MDd" "/MTd" ${flag} "${${flag}}")
-      endif()
-    endforeach()
+  if(USE_MSVC_RUNTIME_LIBRARY_DLL)
+    cmake_policy(SET CMP0091 NEW)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+  else()
+    cmake_policy(SET CMP0091 NEW)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
   endif()
-endif()
-
-if(UNIX AND NOT APPLE)
-  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS}   -Wl,--start-group ")
+  message(${CMAKE_MSVC_RUNTIME_LIBRARY})
 endif()
 
 add_subdirectory(src)
+
+if(UNIX AND NOT APPLE)
+  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--start-group ")
+endif()
+
