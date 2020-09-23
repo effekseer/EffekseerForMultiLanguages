@@ -119,6 +119,40 @@ bool EffekseerManagerCore::Initialize(int32_t spriteMaxCount)
 	return true;
 }
 
+void EffekseerManagerCore::BeginUpdate()
+{
+	if (manager_ == nullptr)
+	{
+		return;
+	}
+
+	manager_->BeginUpdate();
+
+}
+
+void EffekseerManagerCore::EndUpdate()
+{
+	if (manager_ == nullptr)
+	{
+		return;
+	}
+
+	manager_->EndUpdate();
+
+}
+
+void EffekseerManagerCore::UpdateHandleToMoveToFrame(int handle,float v){
+	if (manager_ == nullptr)
+	{
+		return;
+	}
+
+	manager_->UpdateHandleToMoveToFrame(handle,v);
+}
+
+
+
+
 void EffekseerManagerCore::Update(float deltaFrames)
 {
 	if (manager_ == nullptr)
