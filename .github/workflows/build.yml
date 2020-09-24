@@ -212,11 +212,64 @@ jobs:
           name: dist-csharp
           path: build/dist-csharp
 
+  buildPythonLibrary:
+    needs: [buildNative]
+    name: Build Python library
+    runs-on:  ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v2
+        with:
+            fetch-depth: 1
+            submodules: true
+
+      - name: Install dependencies for ubuntu-latest
+        if: matrix.name == 'linux'
+        run: sudo apt update && sudo apt install swig
+
+      - name: Download Natives (linux)
+        uses: actions/download-artifact@v1
+        with:
+          name: natives-linux
+          path: build/dist-natives
+
+      - name: Download Natives (windows)
+        uses: actions/download-artifact@v1
+        with:
+          name: natives-windows
+          path: build/dist-natives
+
+
+      - name: Build Python Library
+        shell: bash
+        run: |
+    
+
+          cdd=$PWD
+          cd build/dist-natives/
+          mkdir -p $cdd/build/dist-python/
+          cp windows/x86_64/*Python.dll $cdd/build/dist-python/_EffekseerCore.dll
+          cp linux/x86_64/*Python.so $cdd/build/dist-python/_EffekseerCore.so
+
+          cd "$cdd"
+         
+          cd src
+          chmod +x ./generate_swig_wrapper.sh
+          ./generate_swig_wrapper.sh
+          cd ..
+
+          cp -R src/python/swig/* build/dist-python/
+      
+      - name: Upload Python Library
+        uses: actions/upload-artifact@v1
+        with:
+          name: dist-python
+          path: build/dist-python
 
 
 
   deploy:
-    needs: [buildCSharpLibrary,buildJavaLibrary]
+    needs: [buildCSharpLibrary,buildJavaLibrary,buildPythonLibrary]
     name: Deploy
     runs-on:  ubuntu-latest
     steps:
