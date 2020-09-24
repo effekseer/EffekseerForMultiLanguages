@@ -25,6 +25,8 @@ public:
 	void Update(float deltaFrames);
 
 	int Play(EffekseerEffectCore* effect);
+	
+	void Stop(int handle);
 
 	void SetPaused(int handle,bool v);
 

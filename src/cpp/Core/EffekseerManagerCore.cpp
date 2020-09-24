@@ -143,6 +143,12 @@ int EffekseerManagerCore::Play(EffekseerEffectCore* effect)
 	return manager_->Play(effect->GetInternal(), ::Effekseer::Vector3D());
 }
 
+
+void EffekseerManagerCore::Stop(int handle)
+{
+	return manager_->StopEffect(handle);
+}
+
 void EffekseerManagerCore::SetShown(int handle, bool v)
 {
 	return manager_->SetShown(handle,v);
