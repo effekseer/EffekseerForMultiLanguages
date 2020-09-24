@@ -25,6 +25,15 @@
 
 #endif
 
+
+#ifdef SWIGPYTHON
+%begin %{
+#define SWIG_PYTHON_STRICT_BYTE_CHAR
+%}
+%include "swig/Lib/python/char16.i"
+
+ #endif
+
 %include "cpp/Core/EffekseerBackendCore.h"
 %include "cpp/Core/EffekseerEffectCore.h"
 %include "cpp/Core/EffekseerManagerCore.h"

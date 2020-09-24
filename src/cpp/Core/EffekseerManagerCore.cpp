@@ -119,6 +119,44 @@ bool EffekseerManagerCore::Initialize(int32_t spriteMaxCount)
 	return true;
 }
 
+void EffekseerManagerCore::BeginUpdate()
+{
+	if (manager_ == nullptr)
+	{
+		return;
+	}
+
+	manager_->BeginUpdate();
+
+}
+
+void EffekseerManagerCore::EndUpdate()
+{
+	if (manager_ == nullptr)
+	{
+		return;
+	}
+
+	manager_->EndUpdate();
+
+}
+
+void EffekseerManagerCore::UpdateHandleToMoveToFrame(int handle,float v){
+	if (manager_ == nullptr)
+	{
+		return;
+	}
+
+	manager_->UpdateHandleToMoveToFrame(handle,v);
+}
+
+
+
+
+void EffekseerManagerCore::LaunchWorkerThreads(int32_t n){
+	manager_->LaunchWorkerThreads(n);
+}
+
 void EffekseerManagerCore::Update(float deltaFrames)
 {
 	if (manager_ == nullptr)
@@ -141,6 +179,12 @@ int EffekseerManagerCore::Play(EffekseerEffectCore* effect)
 		return -1;
 	}
 	return manager_->Play(effect->GetInternal(), ::Effekseer::Vector3D());
+}
+
+
+void EffekseerManagerCore::Stop(int handle)
+{
+	return manager_->StopEffect(handle);
 }
 
 void EffekseerManagerCore::SetShown(int handle, bool v)
@@ -183,12 +227,16 @@ void EffekseerManagerCore::DrawFront()
 	{
 		return;
 	}
-
+	
 	renderer_->BeginRendering();
 	manager_->DrawFront();
 	renderer_->EndRendering();
 }
 
+bool EffekseerManagerCore::Exists(int handle)
+{
+	return manager_->Exists(handle);
+}
 
 
 void EffekseerManagerCore::SetProjectionMatrix(float v0,float v1,float v2,float v3,float v4,float v5,float v6,float v7,float v8,float v9,float v10,float v11,float v12,float v13,float v14,float v15)
@@ -229,3 +277,12 @@ void EffekseerManagerCore::SetViewProjectionMatrixWithSimpleWindow(int32_t windo
 																::Effekseer::Vector3D(windowWidth / 2.0f, windowHeight / 2.0f, -200.0f),
 																::Effekseer::Vector3D(0.0f, 1.0f, 0.0f)));
 }
+
+	void EffekseerManagerCore::SetDynamicInput(int handle,int32_t index,float value){
+		manager_->SetDynamicInput(handle,index,value);
+	}
+
+	float EffekseerManagerCore::GetDynamicInput(int handle,int32_t index){
+		return manager_->GetDynamicInput(handle,index);
+	}
+

@@ -24,7 +24,16 @@ public:
 
 	void Update(float deltaFrames);
 
+	void BeginUpdate();
+
+	void EndUpdate();
+
+	void UpdateHandleToMoveToFrame(int handle, float v);
+	
+
 	int Play(EffekseerEffectCore* effect);
+	
+	void Stop(int handle);
 
 	void SetPaused(int handle,bool v);
 
@@ -42,6 +51,13 @@ public:
 	
 	void SetCameraMatrix(float v0,float v1,float v2,float v3,float v4,float v5,float v6,float v7,float v8,float v9,float v10,float v11,float v12,float v13,float v14,float v15);
 	
+	bool Exists(int handle);
 
 	void SetViewProjectionMatrixWithSimpleWindow(int32_t windowWidth, int32_t windowHeight);
+
+	void SetDynamicInput(int handle,int32_t index,float value);
+
+	float GetDynamicInput(int handle,int32_t index);
+
+	void LaunchWorkerThreads(int32_t n);
 };
