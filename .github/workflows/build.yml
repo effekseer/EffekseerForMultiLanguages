@@ -309,9 +309,16 @@ jobs:
         with:
           java-version: 1.8
 
+      - name: Install dependencies for windows-latest
+        uses: crazy-max/ghaction-chocolatey@v1
+        with:
+          args: install swig 
         
       - name: Build
         run: |
+         cd src
+         ./generate_swig_wrapper.bat
+         cd ..
          cd examples
          python build_libGtxSample.py
         shell: cmd
