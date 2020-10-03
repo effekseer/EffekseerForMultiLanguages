@@ -36,15 +36,15 @@ public:
 	~CustomModelLoader() { ES_SAFE_DELETE(internalLoader_); }
 
 public:
-	void* Load(const EFK_CHAR* path) override
+	Effekseer::Model* Load(const EFK_CHAR* path) override
 	{
 		// Invalid
 		return nullptr;
 	}
 
-	void* Load(const void* data, int32_t size) override { return internalLoader_->Load(data, size); }
+	Effekseer::Model* Load(const void* data, int32_t size) override { return internalLoader_->Load(data, size); }
 
-	void Unload(void* data) override { internalLoader_->Unload(data); }
+	void Unload(Effekseer::Model* data) override { internalLoader_->Unload(data); }
 };
 
 class CustomMaterialLoader : public Effekseer::MaterialLoader
