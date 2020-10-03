@@ -78,4 +78,7 @@ public:
 #if !defined(SWIG)
 	Effekseer::Effect* GetInternal() const;
 #endif
+
+	int32_t GetTermMax();
+	int32_t GetTermMin();
 };
