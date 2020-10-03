@@ -7,7 +7,7 @@ class CustomTextureLoader : public Effekseer::TextureLoader
 	Effekseer::TextureLoader* internalLoader_ = nullptr;
 
 public:
-	CustomTextureLoader() { internalLoader_ = EffekseerRendererGL::CreateTextureLoader(); }
+	CustomTextureLoader(bool isSrgbMode=false) { internalLoader_ = EffekseerRendererGL::CreateTextureLoader(nullptr,isSrgbMode?Effekseer::ColorSpaceType::Linear:Effekseer::ColorSpaceType::Gamma); }
 
 	~CustomTextureLoader() { ES_SAFE_DELETE(internalLoader_); }
 
@@ -76,11 +76,11 @@ public:
 
 EffekseerSettingCore* EffekseerSettingCore::effekseerSetting_ = nullptr;
 
-EffekseerSettingCore::EffekseerSettingCore()
+EffekseerSettingCore::EffekseerSettingCore(bool isSrgbMode)
 {
 	graphicsDevice_ = EffekseerRendererGL::CreateDevice(EffekseerRendererGL::OpenGLDeviceType::OpenGL3);
 
-	SetTextureLoader(new CustomTextureLoader());
+	SetTextureLoader(new CustomTextureLoader(isSrgbMode));
 	SetModelLoader(new CustomModelLoader());
 	SetMaterialLoader(new CustomMaterialLoader(graphicsDevice_));
 }
@@ -93,11 +93,11 @@ EffekseerSettingCore::~EffekseerSettingCore()
 
 EffekseerRenderer::GraphicsDevice* EffekseerSettingCore::GetGraphicsDevice() const { return graphicsDevice_; }
 
-EffekseerSettingCore* EffekseerSettingCore::create()
+EffekseerSettingCore* EffekseerSettingCore::create(bool isSrgbMode)
 {
 	if (effekseerSetting_ == nullptr)
 	{
-		effekseerSetting_ = new EffekseerSettingCore();
+		effekseerSetting_ = new EffekseerSettingCore(isSrgbMode);
 	}
 	else
 	{

@@ -89,7 +89,7 @@ EffekseerManagerCore::~EffekseerManagerCore()
 	}
 }
 
-bool EffekseerManagerCore::Initialize(int32_t spriteMaxCount)
+bool EffekseerManagerCore::Initialize(int32_t spriteMaxCount, bool srgbMode )
 {
 	if (manager_ != nullptr || renderer_ != nullptr)
 	{
@@ -106,7 +106,7 @@ bool EffekseerManagerCore::Initialize(int32_t spriteMaxCount)
 		return false;
 	}
 
-	auto setting = EffekseerSettingCore::create();
+	auto setting = EffekseerSettingCore::create(srgbMode);
 	manager_->SetSetting(setting);
 	ES_SAFE_RELEASE(setting);
 

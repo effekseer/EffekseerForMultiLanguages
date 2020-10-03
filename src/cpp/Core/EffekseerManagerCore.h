@@ -20,7 +20,8 @@ public:
 	EffekseerManagerCore() = default;
 	~EffekseerManagerCore();
 
-	bool Initialize(int32_t spriteMaxCount);
+
+	bool Initialize(int32_t spriteMaxCount, bool srgbMode=false);
 
 	void Update(float deltaFrames);
 
