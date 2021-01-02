@@ -1,3 +1,9 @@
 # Temporary
 build/
 .vs/
+src/cpp/java
+src/cpp/python
+src/cpp/csharp
+src/java/swig
+src/python/swig
+src/csharp/swig
