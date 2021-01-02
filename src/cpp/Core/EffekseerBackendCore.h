@@ -18,11 +18,11 @@ private:
 	EffekseerRenderer::GraphicsDevice* graphicsDevice_ = nullptr;
 
 public:
-	EffekseerSettingCore();
+	EffekseerSettingCore(bool isSrgbMode=false);
 	~EffekseerSettingCore();
 	EffekseerRenderer::GraphicsDevice* GetGraphicsDevice() const;
 
-	static EffekseerSettingCore* create();
+	static EffekseerSettingCore* create(bool isSrgbMode=false);
 };
 
 #endif

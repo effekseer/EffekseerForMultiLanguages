@@ -20,7 +20,8 @@ public:
 	EffekseerManagerCore() = default;
 	~EffekseerManagerCore();
 
-	bool Initialize(int32_t spriteMaxCount);
+
+	bool Initialize(int32_t spriteMaxCount, bool srgbMode=false);
 
 	void Update(float deltaFrames);
 
@@ -32,6 +33,8 @@ public:
 	
 
 	int Play(EffekseerEffectCore* effect);
+
+	void StopAllEffects();
 	
 	void Stop(int handle);
 
@@ -42,6 +45,8 @@ public:
 	void SetEffectPosition(int handle, float x, float y, float z);
 
 	void SetEffectTransformMatrix(int handle,float v0,float v1,float v2,float v3,float v4,float v5,float v6,float v7,float v8,float v9,float v10,float v11);
+
+	void SetEffectTransformBaseMatrix(int handle,float v0,float v1,float v2,float v3,float v4,float v5,float v6,float v7,float v8,float v9,float v10,float v11);
 
 	void DrawBack();
 
@@ -60,4 +65,6 @@ public:
 	float GetDynamicInput(int handle,int32_t index);
 
 	void LaunchWorkerThreads(int32_t n);
+
+	
 };

@@ -150,3 +150,13 @@ bool EffekseerEffectCore::LoadMaterial(const unsigned char* data, int len, int32
 bool EffekseerEffectCore::HasMaterialLoaded(int32_t index) { return effect_->GetMaterial(index) != nullptr; }
 
 Effekseer::Effect* EffekseerEffectCore::GetInternal() const { return effect_; }
+
+int32_t EffekseerEffectCore::GetTermMax(){
+	Effekseer::EffectTerm t=effect_->CalculateTerm();
+	return t.TermMax;
+}
+
+int32_t EffekseerEffectCore::GetTermMin(){
+	Effekseer::EffectTerm t=effect_->CalculateTerm();
+	return t.TermMin;
+}

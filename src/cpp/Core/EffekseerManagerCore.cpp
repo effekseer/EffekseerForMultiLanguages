@@ -89,7 +89,7 @@ EffekseerManagerCore::~EffekseerManagerCore()
 	}
 }
 
-bool EffekseerManagerCore::Initialize(int32_t spriteMaxCount)
+bool EffekseerManagerCore::Initialize(int32_t spriteMaxCount, bool srgbMode )
 {
 	if (manager_ != nullptr || renderer_ != nullptr)
 	{
@@ -106,7 +106,7 @@ bool EffekseerManagerCore::Initialize(int32_t spriteMaxCount)
 		return false;
 	}
 
-	auto setting = EffekseerSettingCore::create();
+	auto setting = EffekseerSettingCore::create(srgbMode);
 	manager_->SetSetting(setting);
 	ES_SAFE_RELEASE(setting);
 
@@ -181,6 +181,10 @@ int EffekseerManagerCore::Play(EffekseerEffectCore* effect)
 	return manager_->Play(effect->GetInternal(), ::Effekseer::Vector3D());
 }
 
+void EffekseerManagerCore::StopAllEffects()
+{
+	return manager_->StopAllEffects();
+}
 
 void EffekseerManagerCore::Stop(int handle)
 {
@@ -202,6 +206,14 @@ void EffekseerManagerCore::SetEffectTransformMatrix(int handle, float v0,float v
 	::Effekseer::Matrix43 m=::Effekseer::Matrix43();
 	matrixFromValues(m,v0,v1,v2,v3,v4,v5,v6,v7,v8,v9,v10,v11);		
 	manager_->SetMatrix(handle,m);
+}
+
+
+void EffekseerManagerCore::SetEffectTransformBaseMatrix(int handle, float v0,float v1,float v2,float v3,float v4,float v5,float v6,float v7,float v8,float v9,float v10,float v11)
+{
+	::Effekseer::Matrix43 m=::Effekseer::Matrix43();
+	matrixFromValues(m,v0,v1,v2,v3,v4,v5,v6,v7,v8,v9,v10,v11);		
+	manager_->SetBaseMatrix(handle,m);
 }
 
 void EffekseerManagerCore::SetPaused(int handle, bool v)
