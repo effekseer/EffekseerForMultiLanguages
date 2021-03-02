@@ -89,11 +89,7 @@ EffekseerSettingCore::EffekseerSettingCore(bool isSrgbMode)
 	SetMaterialLoader(Effekseer::MakeRefPtr<CustomMaterialLoader>(graphicsDevice_));
 }
 
-EffekseerSettingCore::~EffekseerSettingCore()
-{
-	graphicsDevice_.Reset();
-	effekseerSetting_ = nullptr;
-}
+EffekseerSettingCore::~EffekseerSettingCore() { graphicsDevice_.Reset(); }
 
 int EffekseerSettingCore::Release()
 {
