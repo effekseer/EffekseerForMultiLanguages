@@ -76,17 +76,8 @@ inline void matrixFromValues(::Effekseer::Matrix43& matrix,
 
 EffekseerManagerCore::~EffekseerManagerCore()
 {
-	if (manager_ != nullptr)
-	{
-		manager_->Destroy();
-		manager_ = nullptr;
-	}
-
-	if (renderer_ != nullptr)
-	{
-		renderer_->Destroy();
-		renderer_ = nullptr;
-	}
+	manager_.Reset();
+	renderer_.Reset();
 }
 
 bool EffekseerManagerCore::Initialize(int32_t spriteMaxCount, bool srgbMode )
@@ -101,14 +92,13 @@ bool EffekseerManagerCore::Initialize(int32_t spriteMaxCount, bool srgbMode )
 
 	if (manager_ == nullptr || renderer_ == nullptr)
 	{
-		ES_SAFE_RELEASE(manager_);
-		ES_SAFE_RELEASE(renderer_);
+		manager_.Reset();
+		renderer_.Reset();
 		return false;
 	}
 
 	auto setting = EffekseerSettingCore::create(srgbMode);
 	manager_->SetSetting(setting);
-	ES_SAFE_RELEASE(setting);
 
 	manager_->SetSpriteRenderer(renderer_->CreateSpriteRenderer());
 	manager_->SetRibbonRenderer(renderer_->CreateRibbonRenderer());

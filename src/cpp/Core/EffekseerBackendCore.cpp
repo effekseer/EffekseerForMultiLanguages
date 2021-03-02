@@ -4,104 +4,111 @@
 
 class CustomTextureLoader : public Effekseer::TextureLoader
 {
-	Effekseer::TextureLoader* internalLoader_ = nullptr;
+	Effekseer::TextureLoaderRef internalLoader_ = nullptr;
 
 public:
-	CustomTextureLoader(bool isSrgbMode=false) { internalLoader_ = EffekseerRendererGL::CreateTextureLoader(nullptr,isSrgbMode?Effekseer::ColorSpaceType::Linear:Effekseer::ColorSpaceType::Gamma); }
+	CustomTextureLoader(Effekseer::Backend::GraphicsDeviceRef graphicsDevice, bool isSrgbMode = false)
+	{
+		internalLoader_ = EffekseerRendererGL::CreateTextureLoader(
+			graphicsDevice, nullptr, isSrgbMode ? Effekseer::ColorSpaceType::Linear : Effekseer::ColorSpaceType::Gamma);
+	}
 
-	~CustomTextureLoader() { ES_SAFE_DELETE(internalLoader_); }
+	~CustomTextureLoader() override = default;
 
 public:
-	Effekseer::TextureData* Load(const EFK_CHAR* path, Effekseer::TextureType textureType) override
+	Effekseer::TextureRef Load(const EFK_CHAR* path, Effekseer::TextureType textureType) override
 	{
 		// Invalid
 		return nullptr;
 	}
 
-	Effekseer::TextureData* Load(const void* data, int32_t size, Effekseer::TextureType textureType) override
+	Effekseer::TextureRef Load(const void* data, int32_t size, Effekseer::TextureType textureType, bool isMipMapEnabled) override
 	{
-		return internalLoader_->Load(data, size, textureType);
+		return internalLoader_->Load(data, size, textureType, isMipMapEnabled);
 	}
 
-	void Unload(Effekseer::TextureData* data) override { internalLoader_->Unload(data); }
+	void Unload(Effekseer::TextureRef data) override { internalLoader_->Unload(data); }
 };
 
 class CustomModelLoader : public Effekseer::ModelLoader
 {
-	Effekseer::ModelLoader* internalLoader_ = nullptr;
+	Effekseer::ModelLoaderRef internalLoader_ = nullptr;
 
 public:
 	CustomModelLoader() { internalLoader_ = EffekseerRendererGL::CreateModelLoader(); }
 
-	~CustomModelLoader() { ES_SAFE_DELETE(internalLoader_); }
+	~CustomModelLoader() override = default;
 
 public:
-	Effekseer::Model* Load(const EFK_CHAR* path) override
+	Effekseer::ModelRef Load(const EFK_CHAR* path) override
 	{
 		// Invalid
 		return nullptr;
 	}
 
-	Effekseer::Model* Load(const void* data, int32_t size) override { return internalLoader_->Load(data, size); }
+	Effekseer::ModelRef Load(const void* data, int32_t size) override { return internalLoader_->Load(data, size); }
 
-	void Unload(Effekseer::Model* data) override { internalLoader_->Unload(data); }
+	void Unload(Effekseer::ModelRef data) override { internalLoader_->Unload(data); }
 };
 
 class CustomMaterialLoader : public Effekseer::MaterialLoader
 {
-	Effekseer::MaterialLoader* internalLoader_ = nullptr;
+	Effekseer::MaterialLoaderRef internalLoader_ = nullptr;
 
 public:
-	CustomMaterialLoader(EffekseerRenderer::GraphicsDevice* graphicsDevice)
+	CustomMaterialLoader(Effekseer::Backend::GraphicsDeviceRef graphicsDevice)
 	{
 		internalLoader_ = EffekseerRendererGL::CreateMaterialLoader(graphicsDevice);
 	}
 
-	~CustomMaterialLoader() { ES_SAFE_DELETE(internalLoader_); }
+	~CustomMaterialLoader() override = default;
 
 public:
-	Effekseer::MaterialData* Load(const EFK_CHAR* path) override
+	Effekseer::MaterialRef Load(const EFK_CHAR* path) override
 	{
 		// Invalid
 		return nullptr;
 	}
 
-	Effekseer::MaterialData* Load(const void* data, int32_t size, Effekseer::MaterialFileType fileType) override
+	Effekseer::MaterialRef Load(const void* data, int32_t size, Effekseer::MaterialFileType fileType) override
 	{
 		return internalLoader_->Load(data, size, fileType);
 	}
 
-	void Unload(Effekseer::MaterialData* data) override { internalLoader_->Unload(data); }
+	void Unload(Effekseer::MaterialRef data) override { internalLoader_->Unload(data); }
 };
 
-EffekseerSettingCore* EffekseerSettingCore::effekseerSetting_ = nullptr;
+Effekseer::RefPtr<EffekseerSettingCore> EffekseerSettingCore::effekseerSetting_ = nullptr;
 
 EffekseerSettingCore::EffekseerSettingCore(bool isSrgbMode)
 {
-	graphicsDevice_ = EffekseerRendererGL::CreateDevice(EffekseerRendererGL::OpenGLDeviceType::OpenGL3);
+	graphicsDevice_ = EffekseerRendererGL::CreateGraphicsDevice(EffekseerRendererGL::OpenGLDeviceType::OpenGL3);
 
-	SetTextureLoader(new CustomTextureLoader(isSrgbMode));
-	SetModelLoader(new CustomModelLoader());
-	SetMaterialLoader(new CustomMaterialLoader(graphicsDevice_));
+	SetTextureLoader(Effekseer::MakeRefPtr<CustomTextureLoader>(graphicsDevice_, isSrgbMode));
+	SetModelLoader(Effekseer::MakeRefPtr<CustomModelLoader>());
+	SetMaterialLoader(Effekseer::MakeRefPtr<CustomMaterialLoader>(graphicsDevice_));
 }
 
-EffekseerSettingCore::~EffekseerSettingCore()
+EffekseerSettingCore::~EffekseerSettingCore() { graphicsDevice_.Reset(); }
+
+int EffekseerSettingCore::Release()
 {
-	ES_SAFE_RELEASE(graphicsDevice_);
-	effekseerSetting_ = nullptr;
+	auto ret = ::Effekseer::Setting::Release();
+	if (ret == 1)
+	{
+		effekseerSetting_ = nullptr;
+	}
+
+	return ret;
 }
 
-EffekseerRenderer::GraphicsDevice* EffekseerSettingCore::GetGraphicsDevice() const { return graphicsDevice_; }
+Effekseer::Backend::GraphicsDeviceRef EffekseerSettingCore::GetGraphicsDevice() const { return graphicsDevice_; }
 
-EffekseerSettingCore* EffekseerSettingCore::create(bool isSrgbMode)
+Effekseer::RefPtr<EffekseerSettingCore> EffekseerSettingCore::create(bool isSrgbMode)
 {
 	if (effekseerSetting_ == nullptr)
 	{
-		effekseerSetting_ = new EffekseerSettingCore(isSrgbMode);
-	}
-	else
-	{
-		effekseerSetting_->AddRef();
+		effekseerSetting_ = Effekseer::MakeRefPtr<EffekseerSettingCore>(isSrgbMode);
 	}
 
 	return effekseerSetting_;

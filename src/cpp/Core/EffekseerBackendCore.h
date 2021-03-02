@@ -14,15 +14,18 @@ enum class EffekseerCoreDeviceType
 class EffekseerSettingCore : public ::Effekseer::Setting
 {
 private:
-	static EffekseerSettingCore* effekseerSetting_;
-	EffekseerRenderer::GraphicsDevice* graphicsDevice_ = nullptr;
+	static Effekseer::RefPtr<EffekseerSettingCore> effekseerSetting_;
+	Effekseer::Backend::GraphicsDeviceRef graphicsDevice_ = nullptr;
 
 public:
 	EffekseerSettingCore(bool isSrgbMode=false);
-	~EffekseerSettingCore();
-	EffekseerRenderer::GraphicsDevice* GetGraphicsDevice() const;
+	~EffekseerSettingCore() override;
 
-	static EffekseerSettingCore* create(bool isSrgbMode=false);
+	int Release() override;
+
+	Effekseer::Backend::GraphicsDeviceRef GetGraphicsDevice() const;
+
+	static Effekseer::RefPtr<EffekseerSettingCore> create(bool isSrgbMode = false);
 };
 
 #endif

@@ -12,7 +12,7 @@ enum class EffekseerTextureType
 class EffekseerEffectCore
 {
 private:
-	Effekseer::Effect* effect_ = nullptr;
+	Effekseer::EffectRef effect_ = nullptr;
 
 public:
 	EffekseerEffectCore();
@@ -76,7 +76,7 @@ public:
 	 */
 
 #if !defined(SWIG)
-	Effekseer::Effect* GetInternal() const;
+	Effekseer::EffectRef GetInternal() const;
 #endif
 
 	int32_t GetTermMax();

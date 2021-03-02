@@ -3,14 +3,13 @@
 
 EffekseerEffectCore::EffekseerEffectCore() {}
 
-EffekseerEffectCore::~EffekseerEffectCore() { ES_SAFE_RELEASE(effect_); }
+EffekseerEffectCore::~EffekseerEffectCore() {}
 
 bool EffekseerEffectCore::Load(char* data, int len, float magnification) { return Load((const unsigned char*)data, len, magnification); }
 
 bool EffekseerEffectCore::Load(const unsigned char* data, int len, float magnification)
 {
-	ES_SAFE_RELEASE(effect_);
-	effect_ = ::Effekseer::Effect::Create(EffekseerSettingCore::create(), (void*)data, len, magnification);
+	effect_ = ::Effekseer::Effect::Create(EffekseerSettingCore::create().DownCast<Effekseer::Setting>(), (void*)data, len, magnification);
 	return effect_ != nullptr;
 }
 
@@ -67,7 +66,7 @@ bool EffekseerEffectCore::LoadTexture(const unsigned char* data, int len, int32_
 		return false;
 	}
 
-	auto texture = loader->Load((const void*)data, len, (Effekseer::TextureType)type);
+	auto texture = loader->Load((const void*)data, len, (Effekseer::TextureType)type, true);
 
 	if (texture == nullptr)
 	{
@@ -149,14 +148,16 @@ bool EffekseerEffectCore::LoadMaterial(const unsigned char* data, int len, int32
 
 bool EffekseerEffectCore::HasMaterialLoaded(int32_t index) { return effect_->GetMaterial(index) != nullptr; }
 
-Effekseer::Effect* EffekseerEffectCore::GetInternal() const { return effect_; }
+Effekseer::EffectRef EffekseerEffectCore::GetInternal() const { return effect_; }
 
-int32_t EffekseerEffectCore::GetTermMax(){
-	Effekseer::EffectTerm t=effect_->CalculateTerm();
+int32_t EffekseerEffectCore::GetTermMax()
+{
+	Effekseer::EffectTerm t = effect_->CalculateTerm();
 	return t.TermMax;
 }
 
-int32_t EffekseerEffectCore::GetTermMin(){
-	Effekseer::EffectTerm t=effect_->CalculateTerm();
+int32_t EffekseerEffectCore::GetTermMin()
+{
+	Effekseer::EffectTerm t = effect_->CalculateTerm();
 	return t.TermMin;
 }
