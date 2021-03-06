@@ -128,6 +128,19 @@ public class libGdxSample extends ApplicationAdapter {
 			effectCore.LoadMaterial(bytes, bytes.length, i);
 		}
 
+		for (int i = 0; i < effectCore.GetCurveCount(); i++) {
+			String path = (new File(effectPath)).getParent();
+			if (path != null) {
+				path += "/" + effectCore.GetCurvePath(i);
+			} else {
+				path = effectCore.GetCurvePath(i);
+			}
+
+			handle = Gdx.files.internal(path);
+			byte[] bytes = handle.readBytes();
+			effectCore.LoadCurve(bytes, bytes.length, i);
+		}
+
         // TODO sound
 
         return effectCore;

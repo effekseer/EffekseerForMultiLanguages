@@ -148,6 +148,34 @@ bool EffekseerEffectCore::LoadMaterial(const unsigned char* data, int len, int32
 
 bool EffekseerEffectCore::HasMaterialLoaded(int32_t index) { return effect_->GetMaterial(index) != nullptr; }
 
+const char16_t* EffekseerEffectCore::GetCurvePath(int32_t index) const { return effect_->GetCurvePath(index); }
+
+int32_t EffekseerEffectCore::GetCurveCount() const { return effect_->GetCurveCount(); }
+
+bool EffekseerEffectCore::LoadCurve(char* data, int len, int32_t index) { return LoadCurve((const unsigned char*)data, len, index); }
+
+bool EffekseerEffectCore::LoadCurve(const unsigned char* data, int len, int32_t index)
+{
+	auto loader = effect_->GetSetting()->GetCurveLoader();
+	if (loader == nullptr)
+	{
+		return false;
+	}
+
+	auto curve = loader->Load((const void*)data, len);
+
+	if (curve == nullptr)
+	{
+		return false;
+	}
+
+	effect_->SetCurve(index, curve);
+
+	return true;
+}
+
+bool EffekseerEffectCore::HasCurveLoaded(int32_t index) { return effect_->GetCurve(index) != nullptr; }
+
 Effekseer::EffectRef EffekseerEffectCore::GetInternal() const { return effect_; }
 
 int32_t EffekseerEffectCore::GetTermMax()

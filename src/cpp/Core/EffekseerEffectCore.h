@@ -66,7 +66,21 @@ public:
 	bool LoadMaterial(const unsigned char* data, int len, int32_t index);
 #endif
 
+	const char16_t* GetCurvePath(int32_t index) const;
+
 	bool HasMaterialLoaded(int32_t index);
+
+	int32_t GetCurveCount() const;
+
+#if !defined(SWIGCSHARP)
+	bool LoadCurve(char* data, int len, int32_t index);
+#endif
+
+#if !defined(SWIGJAVA)
+	bool LoadCurve(const unsigned char* data, int len, int32_t index);
+#endif
+
+	bool HasCurveLoaded(int32_t index);
 
 	/**
 	 * TODO : imeplement a funtions to load resources

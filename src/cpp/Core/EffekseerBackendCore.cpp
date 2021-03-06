@@ -87,6 +87,7 @@ EffekseerSettingCore::EffekseerSettingCore(bool isSrgbMode)
 	SetTextureLoader(Effekseer::MakeRefPtr<CustomTextureLoader>(graphicsDevice_, isSrgbMode));
 	SetModelLoader(Effekseer::MakeRefPtr<CustomModelLoader>());
 	SetMaterialLoader(Effekseer::MakeRefPtr<CustomMaterialLoader>(graphicsDevice_));
+	SetCurveLoader(Effekseer::MakeRefPtr<Effekseer::CurveLoader>());
 }
 
 EffekseerSettingCore::~EffekseerSettingCore() { graphicsDevice_.Reset(); }
