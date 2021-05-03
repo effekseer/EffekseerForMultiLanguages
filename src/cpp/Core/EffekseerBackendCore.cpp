@@ -1,6 +1,7 @@
 #include "EffekseerBackendCore.h"
 #include <Effekseer.h>
 #include <EffekseerRendererGL.h>
+#include <iostream>
 
 class CustomTextureLoader : public Effekseer::TextureLoader
 {
@@ -83,14 +84,18 @@ Effekseer::RefPtr<EffekseerSettingCore> EffekseerSettingCore::effekseerSetting_ 
 EffekseerSettingCore::EffekseerSettingCore(bool isSrgbMode)
 {
 	graphicsDevice_ = EffekseerRendererGL::CreateGraphicsDevice(EffekseerRendererGL::OpenGLDeviceType::OpenGL3);
-
-	SetTextureLoader(Effekseer::MakeRefPtr<CustomTextureLoader>(graphicsDevice_, isSrgbMode));
-	SetModelLoader(Effekseer::MakeRefPtr<CustomModelLoader>());
-	SetMaterialLoader(Effekseer::MakeRefPtr<CustomMaterialLoader>(graphicsDevice_));
-	SetCurveLoader(Effekseer::MakeRefPtr<Effekseer::CurveLoader>());
+	if (graphicsDevice_ != nullptr)
+	{
+		SetTextureLoader(Effekseer::MakeRefPtr<CustomTextureLoader>(graphicsDevice_, isSrgbMode));
+		SetModelLoader(Effekseer::MakeRefPtr<CustomModelLoader>());
+		SetMaterialLoader(Effekseer::MakeRefPtr<CustomMaterialLoader>(graphicsDevice_));
+		SetCurveLoader(Effekseer::MakeRefPtr<Effekseer::CurveLoader>());
+	}
 }
 
 EffekseerSettingCore::~EffekseerSettingCore() { graphicsDevice_.Reset(); }
+
+bool EffekseerSettingCore::IsValid() const { return graphicsDevice_ != nullptr; }
 
 int EffekseerSettingCore::Release()
 {
@@ -110,6 +115,10 @@ Effekseer::RefPtr<EffekseerSettingCore> EffekseerSettingCore::create(bool isSrgb
 	if (effekseerSetting_ == nullptr)
 	{
 		effekseerSetting_ = Effekseer::MakeRefPtr<EffekseerSettingCore>(isSrgbMode);
+		if (!effekseerSetting_->IsValid())
+		{
+			effekseerSetting_.Reset();
+		}
 	}
 
 	return effekseerSetting_;
@@ -123,6 +132,14 @@ EffekseerCoreDeviceType EffekseerBackendCore::GetDevice() { return deviceType_; 
 bool EffekseerBackendCore::InitializeAsOpenGL()
 {
 	deviceType_ = EffekseerCoreDeviceType::OpenGL;
+
+	Effekseer::SetLogger([](Effekseer::LogType logType, const std::string& s) {
+		if (logType != Effekseer::LogType::Info)
+		{
+			std::cout << s << std::endl;
+		}
+	});
+
 	return true;
 }
 

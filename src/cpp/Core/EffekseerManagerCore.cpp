@@ -86,6 +86,12 @@ bool EffekseerManagerCore::Initialize(int32_t spriteMaxCount, bool srgbMode )
 	{
 		return false;
 	}
+	auto setting = EffekseerSettingCore::create(srgbMode);
+	if (setting == nullptr)
+	{
+		Effekseer::Log(Effekseer::LogType::Error, "Failed to initialize EffekseerManagerCore : GraphicsError");
+		return false;
+	}
 
 	manager_ = ::Effekseer::Manager::Create(spriteMaxCount);
 	renderer_ = ::EffekseerRendererGL::Renderer::Create(spriteMaxCount, EffekseerRendererGL::OpenGLDeviceType::OpenGL3);
@@ -94,10 +100,10 @@ bool EffekseerManagerCore::Initialize(int32_t spriteMaxCount, bool srgbMode )
 	{
 		manager_.Reset();
 		renderer_.Reset();
+		Effekseer::Log(Effekseer::LogType::Error, "Failed to initialize EffekseerManagerCore : RendererError");
 		return false;
 	}
 
-	auto setting = EffekseerSettingCore::create(srgbMode);
 	manager_->SetSetting(setting);
 
 	manager_->SetSpriteRenderer(renderer_->CreateSpriteRenderer());

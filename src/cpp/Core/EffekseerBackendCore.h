@@ -21,6 +21,8 @@ public:
 	EffekseerSettingCore(bool isSrgbMode=false);
 	~EffekseerSettingCore() override;
 
+	bool IsValid() const;
+
 	int Release() override;
 
 	Effekseer::Backend::GraphicsDeviceRef GetGraphicsDevice() const;
