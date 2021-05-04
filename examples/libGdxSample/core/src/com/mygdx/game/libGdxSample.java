@@ -16,6 +16,7 @@ public class libGdxSample extends ApplicationAdapter {
 	Texture img;
 	EffekseerManagerCore effekseerManagerCore;
 	EffekseerEffectCore effekseerEffectCore;
+	float time = 0.0f;
 
 	@Override
 	public void create () {
@@ -36,14 +37,24 @@ public class libGdxSample extends ApplicationAdapter {
 			System.out.print("Failed to load.");
 			return;
 		}
-
-		int efkhandle = effekseerManagerCore.Play(effekseerEffectCore);
-		effekseerManagerCore.SetEffectPosition(efkhandle,
-				Gdx.graphics.getWidth() / 2.0f,Gdx.graphics.getHeight() / 2.0f, 0.0f);
 	}
 
 	@Override
 	public void render () {
+
+		if(time == 0.0f)
+		{
+			int efkhandle = effekseerManagerCore.Play(effekseerEffectCore);
+			effekseerManagerCore.SetEffectPosition(efkhandle,
+					Gdx.graphics.getWidth() / 2.0f,Gdx.graphics.getHeight() / 2.0f, 0.0f);
+		}
+
+		time += Gdx.graphics.getDeltaTime();
+		if(time > 2.0f)
+		{
+			time = 0.0f;
+		}
+
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		// It needs to clear depth
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
