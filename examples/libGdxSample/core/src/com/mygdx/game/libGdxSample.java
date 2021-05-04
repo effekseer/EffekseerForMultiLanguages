@@ -30,7 +30,7 @@ public class libGdxSample extends ApplicationAdapter {
 		effekseerManagerCore = new EffekseerManagerCore();
 		effekseerManagerCore.Initialize(8000);
 
-		String effectPath = "Laser01.efkefc";
+		String effectPath = "Laser03.efkefc";
 		effekseerEffectCore = loadEffect(effectPath, 50.0f);
 		if(effekseerEffectCore == null)
 		{
@@ -46,7 +46,7 @@ public class libGdxSample extends ApplicationAdapter {
 		{
 			int efkhandle = effekseerManagerCore.Play(effekseerEffectCore);
 			effekseerManagerCore.SetEffectPosition(efkhandle,
-					Gdx.graphics.getWidth() / 2.0f,Gdx.graphics.getHeight() / 2.0f, 0.0f);
+					Gdx.graphics.getWidth() / 6.0f,Gdx.graphics.getHeight() / 2.0f, 0.0f);
 		}
 
 		time += Gdx.graphics.getDeltaTime();
