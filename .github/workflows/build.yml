@@ -46,8 +46,9 @@ jobs:
 
       - name: Install dependencies for macos-latest
         if: matrix.os == 'macos-latest'
-        run: brew install swig
-
+        run: |
+          brew install swig
+          git submodule update --init --recommend-shallow --depth 1 
       - name: Install dependencies for windows-latest
         if: matrix.os == 'windows-latest'
         uses: crazy-max/ghaction-chocolatey@v1
