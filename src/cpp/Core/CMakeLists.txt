@@ -23,3 +23,12 @@ target_include_directories(
 add_dependencies(EffekseerCore Effekseer EffekseerRendererGL)
 
 target_compile_features(EffekseerCore PUBLIC cxx_std_14)
+
+if(NOT WIN32)
+  find_package(OpenGL REQUIRED)
+  target_link_libraries(
+    EffekseerCore
+    PUBLIC
+      ${OPENGL_LIBRARIES}
+  )
+endif()
