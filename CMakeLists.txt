@@ -17,6 +17,10 @@ if (WIN32)
   message(${CMAKE_MSVC_RUNTIME_LIBRARY})
 endif()
 
+if(APPLE)
+  set(CMAKE_OSX_DEPLOYMENT_TARGET 10.13)
+endif()
+
 add_subdirectory(src)
 
 if(UNIX AND NOT APPLE)
