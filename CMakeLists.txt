@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.15)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+if(APPLE)
+  set(CMAKE_OSX_DEPLOYMENT_TARGET "10.13" CACHE STRING "" FORCE)
+endif()
+
 project(EffekseerForMultiLanguages LANGUAGES C CXX)
 
 option(USE_MSVC_RUNTIME_LIBRARY_DLL "Whether Multithreaded DLL" OFF)
@@ -15,10 +19,6 @@ if (WIN32)
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
   endif()
   message(${CMAKE_MSVC_RUNTIME_LIBRARY})
-endif()
-
-if(APPLE)
-  set(CMAKE_OSX_DEPLOYMENT_TARGET "10.13" CACHE STRING "" FORCE)
 endif()
 
 add_subdirectory(src)
