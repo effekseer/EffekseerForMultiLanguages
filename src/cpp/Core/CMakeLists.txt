@@ -21,3 +21,5 @@ target_include_directories(
 )
 
 add_dependencies(EffekseerCore Effekseer EffekseerRendererGL)
+
+target_compile_features(EffekseerCore PUBLIC cxx_std_14)
