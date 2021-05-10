@@ -76,4 +76,4 @@ target_include_directories(
   Effekseer/Dev/Cpp/EffekseerRendererGL/
 )
 
-target_compile_features(EffekseerNativeForCShar PRIVATE cxx_std_14)
+target_compile_features(EffekseerNativeForCSharp PRIVATE cxx_std_14)
