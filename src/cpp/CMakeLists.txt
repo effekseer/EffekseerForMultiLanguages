@@ -55,7 +55,6 @@ find_package(PythonLibs)
     ${PYTHON_LIBRARIES}
   )
 
-
 add_library(EffekseerNativeForCSharp
   SHARED
   csharp/dll.cpp
@@ -74,3 +73,4 @@ target_include_directories(
   Effekseer/Dev/Cpp/Effekseer/
   Effekseer/Dev/Cpp/EffekseerRendererGL/
 )
+
