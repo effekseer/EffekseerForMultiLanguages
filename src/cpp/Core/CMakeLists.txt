@@ -30,5 +30,7 @@ if(NOT WIN32)
     EffekseerCore
     PUBLIC
       ${OPENGL_LIBRARIES}
+      Effekseer
+      EffekseerRendererGL
   )
 endif()
