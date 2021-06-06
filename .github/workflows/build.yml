@@ -79,6 +79,17 @@ jobs:
           mkdir -p "$dest"
           cp -v src/cpp/Release/*.${{ matrix.libExt }} "$dest"||cp -v src/cpp/*.${{ matrix.libExt }} "$dest"
 
+      - name: LDD to debug
+        if: matrix.os == 'ubuntu-latest'
+        shell: bash
+        run: |
+          cd build
+          result=`ldd -d dist-native/linux/x86_64/libEffekseerNativeForJava.so`
+          echo "$result"
+          if [ "`echo $result | grep 'undefined symbol'`" ]; then
+             exit 1
+          fi
+
       - name: Upload Natives
         uses: actions/upload-artifact@v1
         with:
