@@ -80,11 +80,11 @@ jobs:
           cp -v src/cpp/Release/*.${{ matrix.libExt }} "$dest"||cp -v src/cpp/*.${{ matrix.libExt }} "$dest"
 
       - name: ldd
+        if: matrix.os == 'ubuntu-latest'
         shell: bash
         run: |
-          if: matrix.os == 'ubuntu-latest'
-            cd build
-            ldd -d dist-native/ubuntu-latest/x86_64/libEffekseerNativeForJava.so
+          cd build
+          ldd -d dist-native/ubuntu-latest/x86_64/libEffekseerNativeForJava.so
 
       - name: Upload Natives
         uses: actions/upload-artifact@v1
