@@ -1,7 +1,9 @@
 
 cmake_minimum_required(VERSION 3.15)
 
-project(EffekseerCore CXX)
+project(EffekseerCore C CXX)
+
+FIND_PACKAGE(Threads REQUIRED)
 
 add_library(
   EffekseerCore
@@ -21,6 +23,7 @@ target_include_directories(
 )
 
 add_dependencies(EffekseerCore Effekseer EffekseerRendererGL)
+target_link_libraries(Effekseer PUBLIC ${CMAKE_THREAD_LIBS_INIT})
 
 target_compile_features(EffekseerCore PUBLIC cxx_std_14)
 
