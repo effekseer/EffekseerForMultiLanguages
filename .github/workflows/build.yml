@@ -84,7 +84,7 @@ jobs:
         shell: bash
         run: |
           cd build
-          ldd -d dist-native/ubuntu-latest/x86_64/libEffekseerNativeForJava.so
+          ldd -d dist-native/linux/x86_64/libEffekseerNativeForJava.so
 
       - name: Upload Natives
         uses: actions/upload-artifact@v1
