@@ -10,7 +10,7 @@ class CustomTextureLoader : public Effekseer::TextureLoader
 public:
 	CustomTextureLoader(Effekseer::Backend::GraphicsDeviceRef graphicsDevice, bool isSrgbMode = false)
 	{
-		internalLoader_ = EffekseerRendererGL::CreateTextureLoader(
+		internalLoader_ = EffekseerRenderer::CreateTextureLoader(
 			graphicsDevice, nullptr, isSrgbMode ? Effekseer::ColorSpaceType::Linear : Effekseer::ColorSpaceType::Gamma);
 	}
 
@@ -36,7 +36,10 @@ class CustomModelLoader : public Effekseer::ModelLoader
 	Effekseer::ModelLoaderRef internalLoader_ = nullptr;
 
 public:
-	CustomModelLoader() { internalLoader_ = EffekseerRendererGL::CreateModelLoader(); }
+	CustomModelLoader(Effekseer::Backend::GraphicsDeviceRef graphicsDevice)
+	{
+		internalLoader_ = EffekseerRenderer::CreateModelLoader(graphicsDevice);
+	}
 
 	~CustomModelLoader() override = default;
 
@@ -87,7 +90,7 @@ EffekseerSettingCore::EffekseerSettingCore(bool isSrgbMode)
 	if (graphicsDevice_ != nullptr)
 	{
 		SetTextureLoader(Effekseer::MakeRefPtr<CustomTextureLoader>(graphicsDevice_, isSrgbMode));
-		SetModelLoader(Effekseer::MakeRefPtr<CustomModelLoader>());
+		SetModelLoader(Effekseer::MakeRefPtr<CustomModelLoader>(graphicsDevice_));
 		SetMaterialLoader(Effekseer::MakeRefPtr<CustomMaterialLoader>(graphicsDevice_));
 		SetCurveLoader(Effekseer::MakeRefPtr<Effekseer::CurveLoader>());
 	}
