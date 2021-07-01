@@ -15,7 +15,8 @@ private:
 	::Effekseer::ManagerRef manager_ = nullptr;
 	::EffekseerRenderer::RendererRef renderer_ = nullptr;
 	float restDeltaTime_ = 0.0f;
-
+	::Effekseer::Backend::TextureRef backgroundtx_;
+	::Effekseer::Backend::TextureRef depthtx_;	 
 public:
 	EffekseerManagerCore() = default;
 	~EffekseerManagerCore();
@@ -119,4 +120,13 @@ public:
 	float GetDynamicInput(int handle, int32_t index);
 
 	void LaunchWorkerThreads(int32_t n);
+
+
+	void SetBackground(uint32_t glid,bool hasMipmap);
+
+	void UnsetBackground();
+
+	void SetDepth(uint32_t glid, bool hasMipmap);
+
+	void UnsetDepth();
 };
