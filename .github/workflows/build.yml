@@ -270,7 +270,7 @@ jobs:
           cdd=$PWD
           cd build/dist-natives/
           mkdir -p $cdd/build/dist-python/
-          cp windows/x86_64/*Python.dll $cdd/build/dist-python/_EffekseerCore.dll
+          cp windows/x86_64/*Python.dll $cdd/build/dist-python/_EffekseerCore.pyd
           cp linux/x86_64/*Python.so $cdd/build/dist-python/_EffekseerCore.so
 
           cd "$cdd"
