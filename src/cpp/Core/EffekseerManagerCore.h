@@ -70,9 +70,11 @@ public:
 									  float v10,
 									  float v11);
 
-	void DrawBack();
+	void DrawBack(int layer=1);
 
-	void DrawFront();
+	void DrawFront(int layer=1);
+
+	void SetLayer(int handle,int layer);
 
 	void SetProjectionMatrix(float v0,
 							 float v1,

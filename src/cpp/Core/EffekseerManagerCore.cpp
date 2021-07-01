@@ -217,7 +217,7 @@ void EffekseerManagerCore::SetPaused(int handle, bool v)
 	manager_->SetPaused(handle,v);
 }
 
-void EffekseerManagerCore::DrawBack()
+void EffekseerManagerCore::DrawBack(int layer)
 {
 	if (manager_ == nullptr)
 	{
@@ -225,11 +225,15 @@ void EffekseerManagerCore::DrawBack()
 	}
 
 	renderer_->BeginRendering();
-	manager_->DrawBack();
+	
+	Effekseer::Manager::DrawParameter params;
+	params.CameraCullingMask=layer;
+	manager_->DrawBack(params);	
+	
 	renderer_->EndRendering();
 }
 
-void EffekseerManagerCore::DrawFront()
+void EffekseerManagerCore::DrawFront(int layer)
 {
 	if (manager_ == nullptr)
 	{
@@ -237,8 +241,17 @@ void EffekseerManagerCore::DrawFront()
 	}
 	
 	renderer_->BeginRendering();
-	manager_->DrawFront();
+	
+	Effekseer::Manager::DrawParameter params;
+	params.CameraCullingMask=layer;
+	manager_->DrawFront(params);
+
 	renderer_->EndRendering();
+}
+
+void EffekseerManagerCore::SetLayer(int handle,int layer)
+{
+	return manager_->SetLayer(handle,layer);
 }
 
 bool EffekseerManagerCore::Exists(int handle)
