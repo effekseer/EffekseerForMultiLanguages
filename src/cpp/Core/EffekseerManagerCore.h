@@ -43,6 +43,10 @@ public:
 
 	void SetEffectPosition(int handle, float x, float y, float z);
 
+	void SetEffectRotation(int handle, float x, float y, float z);
+
+	void SetEffectScale(int handle, float x, float y, float z);
+
 	void SetEffectTransformMatrix(int handle,
 								  float v0,
 								  float v1,

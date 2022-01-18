@@ -236,6 +236,16 @@ void EffekseerManagerCore::SetEffectPosition(int handle, float x, float y, float
 	manager_->SetLocation(handle, x, y, z);
 }
 
+void EffekseerManagerCore::SetEffectRotation(int handle, float x, float y, float z)
+{
+	manager_->SetRotation(handle, x, y, z);
+}
+
+void EffekseerManagerCore::SetEffectScale(int handle, float x, float y, float z)
+{
+	manager_->SetScale(handle, x, y, z);
+}
+
 void EffekseerManagerCore::SetEffectTransformMatrix(int handle, float v0,float v1,float v2,float v3,float v4,float v5,float v6,float v7,float v8,float v9,float v10,float v11)
 {
 	::Effekseer::Matrix43 m=::Effekseer::Matrix43();
