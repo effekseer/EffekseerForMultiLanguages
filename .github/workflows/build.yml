@@ -319,7 +319,7 @@ jobs:
 
   windowsExamples:
     name: Build Windows Samples
-    runs-on: vs2017-win2016
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
         with:
