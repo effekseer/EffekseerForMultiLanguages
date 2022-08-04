@@ -1,7 +1,33 @@
 #include "EffekseerBackendCore.h"
 #include <Effekseer.h>
 #include <EffekseerRendererGL.h>
+
+#ifdef _WIN32
+#include <EffekseerRendererDX11.h>
+#include <EffekseerRendererDX9.h>
+#endif
+
 #include <iostream>
+
+namespace
+{
+void SetupLogger()
+{
+	Effekseer::SetLogger(
+		[](Effekseer::LogType logType, const std::string& s)
+		{
+			if (logType != Effekseer::LogType::Info)
+			{
+				std::cout << s << std::endl;
+			}
+		});
+}
+
+EffekseerCoreDeviceType deviceType_ = EffekseerCoreDeviceType::Unknown;
+std::array<void*, 4> userData_;
+EffekseerSettingCore* setting_ = nullptr;
+
+} // namespace
 
 class CustomTextureLoader : public Effekseer::TextureLoader
 {
@@ -86,7 +112,22 @@ Effekseer::RefPtr<EffekseerSettingCore> EffekseerSettingCore::effekseerSetting_ 
 
 EffekseerSettingCore::EffekseerSettingCore(bool isSrgbMode)
 {
-	graphicsDevice_ = EffekseerRendererGL::CreateGraphicsDevice(EffekseerRendererGL::OpenGLDeviceType::OpenGL3);
+#ifdef _WIN32
+	if (deviceType_ == EffekseerCoreDeviceType::DirectX9)
+	{
+		graphicsDevice_ = EffekseerRendererDX9::CreateGraphicsDevice(reinterpret_cast<LPDIRECT3DDEVICE9>(userData_[0]));
+	}
+	else if (deviceType_ == EffekseerCoreDeviceType::DirectX11)
+	{
+		graphicsDevice_ = EffekseerRendererDX11::CreateGraphicsDevice(reinterpret_cast<ID3D11Device*>(userData_[0]),
+																	  reinterpret_cast<ID3D11DeviceContext*>(userData_[1]));
+	}
+#endif
+	if (deviceType_ == EffekseerCoreDeviceType::OpenGL)
+	{
+		graphicsDevice_ = EffekseerRendererGL::CreateGraphicsDevice(EffekseerRendererGL::OpenGLDeviceType::OpenGL3);
+	}
+
 	if (graphicsDevice_ != nullptr)
 	{
 		SetTextureLoader(Effekseer::MakeRefPtr<CustomTextureLoader>(graphicsDevice_, isSrgbMode));
@@ -127,23 +168,38 @@ Effekseer::RefPtr<EffekseerSettingCore> EffekseerSettingCore::create(bool isSrgb
 	return effekseerSetting_;
 }
 
-EffekseerCoreDeviceType EffekseerBackendCore::deviceType_ = EffekseerCoreDeviceType::Unknown;
-EffekseerSettingCore* EffekseerBackendCore::setting_ = nullptr;
-
 EffekseerCoreDeviceType EffekseerBackendCore::GetDevice() { return deviceType_; }
 
-bool EffekseerBackendCore::InitializeAsOpenGL()
+bool EffekseerBackendCore::InitializeWithOpenGL()
 {
 	deviceType_ = EffekseerCoreDeviceType::OpenGL;
-
-	Effekseer::SetLogger([](Effekseer::LogType logType, const std::string& s) {
-		if (logType != Effekseer::LogType::Info)
-		{
-			std::cout << s << std::endl;
-		}
-	});
-
+	SetupLogger();
 	return true;
+}
+
+bool EffekseerBackendCore::InitializeWithDirectX9(void* device)
+{
+#ifdef _WIN32
+	deviceType_ = EffekseerCoreDeviceType::DirectX9;
+	userData_[0] = device;
+	SetupLogger();
+	return true;
+#else
+	return false;
+#endif
+}
+
+bool EffekseerBackendCore::InitializeWithDirectX11(void* device, void* context)
+{
+#ifdef _WIN32
+	deviceType_ = EffekseerCoreDeviceType::DirectX11;
+	userData_[0] = device;
+	userData_[1] = context;
+	SetupLogger();
+	return true;
+#else
+	return false;
+#endif
 }
 
 void EffekseerBackendCore::Terminate() {}

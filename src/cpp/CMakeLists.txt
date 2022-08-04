@@ -23,14 +23,9 @@ if(${JNI_FOUND})
 
   target_link_libraries(EffekseerNativeForJava
     PRIVATE
-    Effekseer
-    EffekseerRendererGL
     EffekseerCore
   )
 endif()
-
-
-
 
 find_package(PythonLibs)
 
@@ -49,8 +44,6 @@ find_package(PythonLibs)
 
   target_link_libraries(EffekseerNativeForPython
     PRIVATE
-    Effekseer
-    EffekseerRendererGL
     EffekseerCore
     ${PYTHON_LIBRARIES}
   )
@@ -62,8 +55,6 @@ add_library(EffekseerNativeForCSharp
 
 target_link_libraries(EffekseerNativeForCSharp
   PRIVATE
-  Effekseer
-  EffekseerRendererGL
   EffekseerCore
 )
 

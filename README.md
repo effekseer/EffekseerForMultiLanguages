@@ -1,21 +1,43 @@
-## Common
+## EffekseerForMultiLanguages
 
-Effekseer for C# and Java
+Effekseer for C#, Java and Python
 
 ### Requirements
 - git
 - python
 - C++ compiler
 - cmake (3.15 or later)
+- swig
 - JDK (If you develop it for JVM)
 - ant (If you develop it for JVM)
 
-### Clone
+### Build
 
 ```
 git clone https://github.com/effekseer/EffekseerForMultiLanguages.git
 cd EffekseerForMultiLanguages
 git submodule update --init
+```
+
+#### Windows
+
+```
+cd src
+generate_swig_wrapper.bat
+cd ..
+```
+
+#### Mac, Linux
+
+```
+cd src
+sh generate_swig_wrapper.sh
+cd ..
+```
+
+
+```
+cmake -B build -S .
 ```
 
 ## How to use
