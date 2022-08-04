@@ -22,6 +22,28 @@ target_include_directories(
   ../Effekseer/Dev/Cpp/EffekseerRendererGL/
 )
 
+target_link_libraries(
+  EffekseerCore
+  PUBLIC
+  Effekseer
+)
+
+if(WIN32)
+  target_include_directories(
+    EffekseerCore
+    PUBLIC
+    ../Effekseer/Dev/Cpp/EffekseerRendererDX9/
+    ../Effekseer/Dev/Cpp/EffekseerRendererDX11/
+  )
+
+  target_link_libraries(
+    EffekseerCore
+    PUBLIC
+    EffekseerRendererDX9
+    EffekseerRendererDX11
+  )
+endif()
+
 target_compile_features(EffekseerCore PUBLIC cxx_std_14)
 
 if(NOT WIN32)
@@ -29,8 +51,12 @@ if(NOT WIN32)
   target_link_libraries(
     EffekseerCore
     PUBLIC
-      ${OPENGL_LIBRARIES}
-      Effekseer
-      EffekseerRendererGL
+    ${OPENGL_LIBRARIES}
   )
 endif()
+
+target_link_libraries(
+  EffekseerCore
+  PUBLIC
+  EffekseerRendererGL
+)

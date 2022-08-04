@@ -25,7 +25,7 @@ public class libGdxSample extends ApplicationAdapter {
 
 		System.loadLibrary("EffekseerNativeForJava");
 
-		EffekseerBackendCore.InitializeAsOpenGL();
+		EffekseerBackendCore.InitializeWithOpenGL();
 
 		effekseerManagerCore = new EffekseerManagerCore();
 		effekseerManagerCore.Initialize(8000);

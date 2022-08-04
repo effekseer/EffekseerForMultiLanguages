@@ -21,6 +21,7 @@
 %include "swig/Lib/csharp/char16.i"
 %include "arrays_csharp.i"
 
+%apply void* VOID_INT_PTR { void* }
 %apply unsigned char INPUT[] { const unsigned char* data };
 
 #endif
