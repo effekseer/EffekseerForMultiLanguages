@@ -28,7 +28,11 @@ public class libGdxSample extends ApplicationAdapter {
 		EffekseerBackendCore.InitializeWithOpenGL();
 
 		effekseerManagerCore = new EffekseerManagerCore();
-		effekseerManagerCore.Initialize(8000);
+		if(!effekseerManagerCore.Initialize(8000))
+		{
+			System.out.print("Failed to initialize.");
+			return;
+		}
 
 		String effectPath = "Laser03.efkefc";
 		effekseerEffectCore = loadEffect(effectPath, 50.0f);
