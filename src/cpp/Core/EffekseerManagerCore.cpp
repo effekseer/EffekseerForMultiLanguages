@@ -205,6 +205,7 @@ void EffekseerManagerCore::Update(float deltaFrames)
 	{
 		manager_->Update(1);
 	}
+	manager_->Update(0);
 }
 
 int EffekseerManagerCore::Play(EffekseerEffectCore* effect)
