@@ -247,6 +247,14 @@ void EffekseerManagerCore::SetEffectScale(int handle, float x, float y, float z)
 	manager_->SetScale(handle, x, y, z);
 }
 
+void EffekseerManagerCore::SetLayerParameter(int layer, float viewerPosX, float viewerPosY, float viewerPosZ, float distanceBias)
+{
+	::Effekseer::Manager::LayerParameter layerParameter;
+	layerParameter.ViewerPosition = ::Effekseer::Vector3D(viewerPosX, viewerPosY, viewerPosZ);
+	layerParameter.DistanceBias = distanceBias;
+	manager_->SetLayerParameter(layer, layerParameter);
+}
+
 void EffekseerManagerCore::SetEffectTransformMatrix(int handle, float v0,float v1,float v2,float v3,float v4,float v5,float v6,float v7,float v8,float v9,float v10,float v11)
 {
 	::Effekseer::Matrix43 m=::Effekseer::Matrix43();
@@ -304,11 +312,26 @@ void EffekseerManagerCore::SetLayer(int handle,int layer)
 	return manager_->SetLayer(handle,layer);
 }
 
+void EffekseerManagerCore::SendTrigger(int handle,int index)
+{
+	return manager_->SendTrigger(handle,index);
+}
+
 bool EffekseerManagerCore::Exists(int handle)
 {
 	return manager_->Exists(handle);
 }
 
+void EffekseerManagerCore::SetCameraParameter(float frontX, float frontY, float frontZ, float posX, float posY, float posZ){
+	if (manager_ == nullptr)
+	{
+		return;
+	}
+
+	::Effekseer::Vector3D pos = ::Effekseer::Vector3D(posX, posY, posZ);
+	::Effekseer::Vector3D front = ::Effekseer::Vector3D(frontX, frontY, frontZ);
+	renderer_->SetCameraParameter(front, pos);
+}
 
 void EffekseerManagerCore::SetProjectionMatrix(float v0,float v1,float v2,float v3,float v4,float v5,float v6,float v7,float v8,float v9,float v10,float v11,float v12,float v13,float v14,float v15)
 {

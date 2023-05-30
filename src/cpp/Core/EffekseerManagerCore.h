@@ -41,11 +41,15 @@ public:
 
 	void SetShown(int handle, bool v);
 
+	void SendTrigger(int handle, int index);
+
 	void SetEffectPosition(int handle, float x, float y, float z);
 
 	void SetEffectRotation(int handle, float x, float y, float z);
 
 	void SetEffectScale(int handle, float x, float y, float z);
+
+	void SetLayerParameter(int layer, float viewerPosX, float viewerPosY, float viewerPosZ, float distanceBias);
 
 	void SetEffectTransformMatrix(int handle,
 								  float v0,
@@ -80,6 +84,8 @@ public:
 	void DrawFront(int layer=1);
 
 	void SetLayer(int handle,int layer);
+
+	void SetCameraParameter(float frontX, float frontY, float frontZ, float posX, float posY, float posZ);
 
 	void SetProjectionMatrix(float v0,
 							 float v1,
