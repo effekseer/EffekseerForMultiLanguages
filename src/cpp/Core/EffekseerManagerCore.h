@@ -16,7 +16,8 @@ private:
 	::EffekseerRenderer::RendererRef renderer_ = nullptr;
 	float restDeltaTime_ = 0.0f;
 	::Effekseer::Backend::TextureRef backgroundtx_;
-	::Effekseer::Backend::TextureRef depthtx_;	 
+	::Effekseer::Backend::TextureRef depthtx_;
+
 public:
 	EffekseerManagerCore() = default;
 	~EffekseerManagerCore();
@@ -79,11 +80,11 @@ public:
 									  float v10,
 									  float v11);
 
-	void DrawBack(int layer=1);
+	void DrawBack(int layer = 1);
 
-	void DrawFront(int layer=1);
+	void DrawFront(int layer = 1);
 
-	void SetLayer(int handle,int layer);
+	void SetLayer(int handle, int layer);
 
 	void SetCameraParameter(float frontX, float frontY, float frontZ, float posX, float posY, float posZ);
 
@@ -131,8 +132,7 @@ public:
 
 	void LaunchWorkerThreads(int32_t n);
 
-
-	void SetBackground(uint32_t glid,bool hasMipmap);
+	void SetBackground(uint32_t glid, bool hasMipmap);
 
 	void UnsetBackground();
 
