@@ -186,6 +186,10 @@ void EffekseerManagerCore::UnsetDepth()
 	renderer_->SetDepth(nullptr, params);
 }
 
+int EffekseerManagerCore::GetInstanceCount(int handle) { return manager_->GetInstanceCount(handle); }
+
+int EffekseerManagerCore::GetTotalInstanceCount() const { return manager_->GetTotalInstanceCount(); }
+
 void EffekseerManagerCore::LaunchWorkerThreads(int32_t n) { manager_->LaunchWorkerThreads(n); }
 
 void EffekseerManagerCore::Update(float deltaFrames)

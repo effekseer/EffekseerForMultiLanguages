@@ -139,4 +139,8 @@ public:
 	void SetDepth(uint32_t glid, bool hasMipmap);
 
 	void UnsetDepth();
+
+	int GetInstanceCount(int handle);
+
+	int GetTotalInstanceCount() const;
 };
