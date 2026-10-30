@@ -20,7 +20,7 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 os.chdir('../')
 os.makedirs('build/', exist_ok=True)
 os.chdir('build')
-call('cmake -D BUILD_DX12=OFF -D BUILD_EXAMPLES=OFF ..')
+call('cmake -D BUILD_DX12=OFF -D BUILD_EXAMPLES=OFF -D BUILD_TOOLS=OFF ..')
 call('cmake --build . --config Release')
 shutil.copy('src/cpp/Release/EffekseerNativeForJava.dll',
             '../examples/libGdxSample/core/assets/EffekseerNativeForJava.dll')
