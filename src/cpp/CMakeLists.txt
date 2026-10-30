@@ -10,7 +10,7 @@ add_library(EffekseerNativeForJava
   java/dll.cpp
 )
 
-find_package(JNI)
+find_package(JNI REQUIRED)
 
 if(${JNI_FOUND})
   target_include_directories(
@@ -28,7 +28,9 @@ if(${JNI_FOUND})
   target_compile_features(EffekseerNativeForJava PUBLIC cxx_std_17)
 endif()
 
-find_package(PythonLibs)
+# Prefer the Python selected on PATH (including actions/setup-python).
+set(Python3_FIND_REGISTRY LAST)
+find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
 
   add_library(EffekseerNativeForPython
       SHARED
@@ -40,13 +42,13 @@ find_package(PythonLibs)
     PRIVATE
     Effekseer/Dev/Cpp/Effekseer/
     Effekseer/Dev/Cpp/EffekseerRendererGL/
-    ${PYTHON_INCLUDE_DIRS}
+    ${Python3_INCLUDE_DIRS}
   )
 
   target_link_libraries(EffekseerNativeForPython
     PRIVATE
     EffekseerCore
-    ${PYTHON_LIBRARIES}
+    Python3::Python
   )
 
 target_compile_features(EffekseerNativeForPython PUBLIC cxx_std_17)
@@ -70,3 +72,10 @@ target_include_directories(
 
 target_compile_features(EffekseerNativeForCSharp PUBLIC cxx_std_17)
 
+
+# Fail at link time instead of shipping libraries that fail to load on Linux.
+if(UNIX AND NOT APPLE)
+  foreach(binding EffekseerNativeForJava EffekseerNativeForPython EffekseerNativeForCSharp)
+    target_link_options(${binding} PRIVATE "LINKER:--no-undefined")
+  endforeach()
+endif()

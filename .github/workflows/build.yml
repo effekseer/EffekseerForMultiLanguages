@@ -22,7 +22,7 @@ jobs:
             scriptExt: "bat"
             libExt: "dll"
             name: "windows"
-          - os: macos-latest
+          - os: macos-15-intel
             scriptExt: "sh"
             libExt: "dylib"
             name: "macos"
@@ -33,7 +33,12 @@ jobs:
       - uses: actions/checkout@v2
         with:
             fetch-depth: 1
-            submodules: true
+            submodules: recursive
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
 
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1
@@ -42,10 +47,10 @@ jobs:
       
       - name: Install dependencies for ubuntu-latest
         if: matrix.os == 'ubuntu-latest'
-        run: sudo apt update && sudo apt install libpulse-dev libglvnd-dev libx11-dev libopenal-dev libvulkan-dev libgl1-mesa-dev libgles2-mesa-dev libglu1-mesa-dev libgtk-3-dev ninja-build swig
+        run: sudo apt update && sudo apt install -y libpulse-dev libglvnd-dev libx11-dev libopenal-dev libvulkan-dev libgl1-mesa-dev libgles2-mesa-dev libglu1-mesa-dev libgtk-3-dev ninja-build swig
 
-      - name: Install dependencies for macos-latest
-        if: matrix.os == 'macos-latest'
+      - name: Install dependencies for macos-15-intel
+        if: matrix.os == 'macos-15-intel'
         run: |
           brew install swig
           cd src/cpp/Effekseer/
@@ -72,7 +77,7 @@ jobs:
 
           cd build
 
-          cmake -D BUILD_DX12=OFF -D BUILD_EXAMPLES=OFF ..
+          cmake -D BUILD_DX12=OFF -D BUILD_EXAMPLES=OFF -D BUILD_TOOLS=OFF ..
           cmake --build . --config Release
 
           dest="dist-native/${{ matrix.name }}/x86_64"
@@ -90,6 +95,17 @@ jobs:
              exit 1
           fi
 
+      - name: Smoke test Python and Java bindings
+        shell: bash
+        run: |
+          native_dir="build/dist-native/${{ matrix.name }}/x86_64"
+          prefix="lib"
+          if [ "${{ matrix.name }}" = "windows" ]; then prefix=""; fi
+          python tests/smoke_native.py "$native_dir/${prefix}EffekseerNativeForPython.${{ matrix.libExt }}"
+          mkdir -p build/binding-smoke
+          javac -d build/binding-smoke src/java/swig/*.java tests/SmokeJava.java
+          java -cp build/binding-smoke SmokeJava "$native_dir/${prefix}EffekseerNativeForJava.${{ matrix.libExt }}"
+
       - name: Upload Natives
         uses: actions/upload-artifact@v4
         with:
@@ -105,7 +121,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
             fetch-depth: 1
-            submodules: true
+            submodules: recursive
 
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1
@@ -113,8 +129,7 @@ jobs:
           java-version: 1.8
 
       - name: Install dependencies for ubuntu-latest
-        if: matrix.os == 'ubuntu-latest'
-        run: sudo apt update && sudo apt install swig
+        run: sudo apt update && sudo apt install -y swig
 
       - name: Download Natives (linux)
         uses: actions/download-artifact@v4
@@ -177,11 +192,10 @@ jobs:
       - uses: actions/checkout@v2
         with:
             fetch-depth: 1
-            submodules: true
+            submodules: recursive
 
       - name: Install dependencies for ubuntu-latest
-        if: matrix.os == 'ubuntu-latest'
-        run: sudo apt update && sudo apt install swig
+        run: sudo apt update && sudo apt install -y swig
 
       - name: Download Natives (linux)
         uses: actions/download-artifact@v4
@@ -243,11 +257,10 @@ jobs:
       - uses: actions/checkout@v2
         with:
             fetch-depth: 1
-            submodules: true
+            submodules: recursive
 
       - name: Install dependencies for ubuntu-latest
-        if: matrix.name == 'linux'
-        run: sudo apt update && sudo apt install swig
+        run: sudo apt update && sudo apt install -y swig
 
       - name: Download Natives (linux)
         uses: actions/download-artifact@v4
@@ -324,7 +337,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
             fetch-depth: 1
-            submodules: true
+            submodules: recursive
       
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1

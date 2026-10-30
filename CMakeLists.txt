@@ -22,8 +22,3 @@ if (WIN32)
 endif()
 
 add_subdirectory(src)
-
-if(UNIX AND NOT APPLE)
-  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--start-group ")
-endif()
-

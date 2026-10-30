@@ -4,7 +4,7 @@ Effekseer for C#, Java and Python
 
 ### Requirements
 - git
-- python
+- Python 3 with development headers (CI uses Python 3.12)
 - C++ compiler
 - cmake (3.15 or later)
 - swig
@@ -16,7 +16,7 @@ Effekseer for C#, Java and Python
 ```
 git clone https://github.com/effekseer/EffekseerForMultiLanguages.git
 cd EffekseerForMultiLanguages
-git submodule update --init
+git submodule update --init --recursive
 ```
 
 #### Windows
@@ -38,6 +38,7 @@ cd ..
 
 ```
 cmake -B build -S .
+cmake --build build --config Release
 ```
 
 ## How to use

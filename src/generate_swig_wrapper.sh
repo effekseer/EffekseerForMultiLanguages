@@ -1,4 +1,5 @@
 #!/bin/sh
+set -eu
 mkdir -p java/swig
 mkdir -p csharp/swig
 mkdir -p python/swig

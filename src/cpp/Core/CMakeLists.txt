@@ -48,11 +48,8 @@ target_compile_features(EffekseerCore PUBLIC cxx_std_17)
 
 if(NOT WIN32)
   find_package(OpenGL REQUIRED)
-  target_link_libraries(
-    EffekseerCore
-    PUBLIC
-    ${OPENGL_LIBRARIES}
-  )
+  # OpenGL must follow the renderer archive when linking with --as-needed.
+  target_link_libraries(EffekseerRendererGL PUBLIC OpenGL::GL)
 endif()
 
 target_link_libraries(
