@@ -1,81 +1,43 @@
-
-project(cpp)
-
-set(BUILD_EXAMPLES OFF)
 add_subdirectory(Effekseer)
 add_subdirectory(Core)
 
-add_library(EffekseerNativeForJava
-  SHARED
-  java/dll.cpp
-)
+function(add_effekseer_binding target language)
+  set(wrapper "${CMAKE_CURRENT_SOURCE_DIR}/${language}/dll.cpp")
+  if(NOT EXISTS "${wrapper}")
+    message(FATAL_ERROR "Missing ${wrapper}. Run src/generate_swig_wrapper.bat or .sh before configuring.")
+  endif()
+  add_library(${target} SHARED "${wrapper}")
+  target_link_libraries(${target} PRIVATE EffekseerCore)
+endfunction()
 
-find_package(JNI REQUIRED)
-
-if(${JNI_FOUND})
-  target_include_directories(
-    EffekseerNativeForJava
-    PRIVATE
-    Effekseer/Dev/Cpp/Effekseer/
-    Effekseer/Dev/Cpp/EffekseerRendererGL/
-    ${JNI_INCLUDE_DIRS}
-  )
-
-  target_link_libraries(EffekseerNativeForJava
-    PRIVATE
-    EffekseerCore
-  )
-  target_compile_features(EffekseerNativeForJava PUBLIC cxx_std_17)
+if(EFFEKSEER_BUILD_JAVA)
+  # Java loads this library. Only JNI headers are consumed; AWT is not used,
+  # and the library must not link to a particular JVM installation.
+  find_package(JNI REQUIRED COMPONENTS JVM)
+  add_effekseer_binding(EffekseerNativeForJava java)
+  target_link_libraries(EffekseerNativeForJava PRIVATE JNI::JNI)
 endif()
 
-# Prefer the Python selected on PATH (including actions/setup-python).
-set(Python3_FIND_REGISTRY LAST)
-find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
+if(EFFEKSEER_BUILD_PYTHON)
+  # Prefer the interpreter selected on PATH, including actions/setup-python.
+  if(NOT DEFINED Python3_FIND_REGISTRY)
+    set(Python3_FIND_REGISTRY LAST)
+  endif()
+  find_package(Python3 REQUIRED COMPONENTS Interpreter Development.Module)
+  add_effekseer_binding(EffekseerNativeForPython python)
+  target_link_libraries(EffekseerNativeForPython PRIVATE Python3::Module)
+endif()
 
-  add_library(EffekseerNativeForPython
-      SHARED
-      python/dll.cpp
-  )
+if(EFFEKSEER_BUILD_CSHARP)
+  add_effekseer_binding(EffekseerNativeForCSharp csharp)
+endif()
 
-  target_include_directories(
-    EffekseerNativeForPython
-    PRIVATE
-    Effekseer/Dev/Cpp/Effekseer/
-    Effekseer/Dev/Cpp/EffekseerRendererGL/
-    ${Python3_INCLUDE_DIRS}
-  )
-
-  target_link_libraries(EffekseerNativeForPython
-    PRIVATE
-    EffekseerCore
-    Python3::Python
-  )
-
-target_compile_features(EffekseerNativeForPython PUBLIC cxx_std_17)
-
-add_library(EffekseerNativeForCSharp
-  SHARED
-  csharp/dll.cpp
-)
-
-target_link_libraries(EffekseerNativeForCSharp
-  PRIVATE
-  EffekseerCore
-)
-
-target_include_directories(
-  EffekseerNativeForCSharp
-  PRIVATE
-  Effekseer/Dev/Cpp/Effekseer/
-  Effekseer/Dev/Cpp/EffekseerRendererGL/
-)
-
-target_compile_features(EffekseerNativeForCSharp PUBLIC cxx_std_17)
-
-
-# Fail at link time instead of shipping libraries that fail to load on Linux.
+# Python extensions resolve Python API symbols from the hosting interpreter
+# on Unix. Java and C# libraries must resolve all symbols at link time.
 if(UNIX AND NOT APPLE)
-  foreach(binding EffekseerNativeForJava EffekseerNativeForPython EffekseerNativeForCSharp)
-    target_link_options(${binding} PRIVATE "LINKER:--no-undefined")
+  foreach(binding EffekseerNativeForJava EffekseerNativeForCSharp)
+    if(TARGET ${binding})
+      target_link_options(${binding} PRIVATE "LINKER:--no-undefined")
+    endif()
   endforeach()
 endif()
