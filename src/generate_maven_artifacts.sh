@@ -7,7 +7,7 @@ fi
 
 if [ "$VERSION" = "" ];
 then
-    export VERSION="1.0"
+    export VERSION="$(cat "$(dirname "$0")/../VERSION")"
 fi
 
 

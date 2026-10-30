@@ -165,12 +165,7 @@ jobs:
           cd "$cdd"
          
 
-          export VERSION="`if [[ $GITHUB_REF == refs\/tags* ]]; then echo ${GITHUB_REF//refs\/tags\//}; fi`"
-          if [ "$VERSION" = "" ];
-          then
-            branch="`if [[ $GITHUB_REF == refs\/heads* ]]; then echo ${GITHUB_REF//refs\/heads\//}; fi`"
-            export VERSION="$branch-SNAPSHOT"
-          fi
+          export VERSION="$(cat VERSION)"
 
           cd src
           chmod +x ./generate_maven_artifacts.sh
@@ -179,7 +174,7 @@ jobs:
       - name: Upload Maven Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: dist-java
+          name: dist-java-1.80.8
           path: build/maven
 
 
@@ -241,11 +236,12 @@ jobs:
 
           mkdir -p build/dist-csharp/Effekseer
           cp -R src/csharp/swig build/dist-csharp/Effekseer/
+          cp VERSION build/dist-csharp/
       
       - name: Upload C# Library
         uses: actions/upload-artifact@v4
         with:
-          name: dist-csharp
+          name: dist-csharp-1.80.8
           path: build/dist-csharp
 
   buildPythonLibrary:
@@ -294,11 +290,12 @@ jobs:
           cd ..
 
           cp -R src/python/swig/* build/dist-python/
+          cp VERSION build/dist-python/
       
       - name: Upload Python Library
         uses: actions/upload-artifact@v4
         with:
-          name: dist-python
+          name: dist-python-1.80.8
           path: build/dist-python
 
 
@@ -311,7 +308,7 @@ jobs:
       - name: Download Maven Artifacts
         uses: actions/download-artifact@v4
         with:
-          name: dist-java
+          name: dist-java-1.80.8
           path: maven
 
       - name: Deploy Maven Artifacts to Package Registry
